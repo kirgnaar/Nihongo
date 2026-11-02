@@ -293,7 +293,7 @@ const COMBOS = [
 ];
 
 // ============================================================
-// DONNÉES : 103 KANJI (JLPT N5)
+// DONNÉES : 104 KANJI (JLPT N5)
 // ============================================================
 
 
@@ -671,11 +671,11 @@ const LESSONS = [
     title: "La forme て : actions en chaîne",
     goal: "Enchaîner plusieurs actions, exprimer une action en cours, demander poliment.",
     dialog: [
-      ["田中", "今、何をしていますか。", "Qu'est-ce que tu es en train de faire ?"],
-      ["リナ", "日本語を勉強しています。漢字を書いています。", "J'étudie le japonais. Je suis en train d'écrire des kanji."],
-      ["田中", "頑張りますね。すみません、窓を開けてもいいですか。", "Tu te donnes du mal. Pardon, puis-je ouvrir la fenêtre ?"],
-      ["リナ", "はい、どうぞ。コーヒーを飲んでから、一緒に勉強しませんか。", "Oui, je t'en prie. Après avoir bu un café, on étudie ensemble ?"],
-      ["田中", "はい、手を洗って来ます。", "Oui, je me lave les mains et j'arrive."],
+      ["田中", "今、何をしていますか。", "Que faites-vous en ce moment ?"],
+      ["リナ", "日本語を勉強しています。漢字を書いています。", "J'étudie le japonais. J'écris des kanji."],
+      ["田中", "頑張りますね。すみません、窓を開けてもいいですか。", "C'est un beau travail. Pardonnez-moi, puis-je ouvrir la fenêtre ?"],
+      ["リナ", "はい、どうぞ。コーヒーを飲んでから、一緒に勉強しませんか。", "Oui, je vous en prie. Après avoir bu un café, étudions-nous ensemble ?"],
+      ["田中", "はい、手を洗って来ます。", "Oui, je vais me laver les mains et j'arrive."],
     ],
     vocab: [
       ["〜ています", "〜ています", "être en train de"],
@@ -910,7 +910,7 @@ const LESSONS = [
     ],
     quiz: [
       { q: "« On boit un thé ? » (invitation) :", choices: ["お茶を飲みませんか。", "お茶を飲みましょうか。", "お茶を飲みたいです。", "お茶を飲むことができます。"], a: 0, e: "Invitation polie : 〜ませんか." },
-      { q: "« Je veux manger » :", choices: ["食べたいです", "食べります", "食べましょう", "食べてです"], a: 0, e: "Stemme de ます + たいです." },
+      { q: "« Je veux manger » :", choices: ["食べたいです", "食べります", "食べましょう", "食べてです"], a: 0, e: "Souche de ます + たいです." },
       { q: "« Je sais nager » :", choices: ["泳ぐことができます", "泳ぎたいです", "泳ぎません", "泳ぎましょう"], a: 0, e: "Dictionnaire + ことができます." },
     ],
   },
@@ -1270,16 +1270,16 @@ function homeHTML() {
   var vals = Object.keys(scores).map(function (k) { return scores[k]; });
   var avg = vals.length ? Math.round(vals.reduce(function (a, b) { return a + b; }, 0) / vals.length) : 0;
   var h = '<div class="hero"><div class="big serif">日本語 <span style="font-size:1.1rem;color:#d6d3d1">— dōjō</span></div>';
-  h += '<p>Une méthode complète, interactive, en français : kana, 10 leçons progressives, 103 kanji du JLPT N5, grammaire de référence et quiz corrigés instantanément. Ce que les livres ne font pas : vous répondre quand vous vous trompez.</p>';
+  h += '<p>Une méthode complète, interactive, en français : kana, 10 leçons progressives, 104 kanji du JLPT N5, grammaire de référence et quiz corrigés instantanément. Ce que les livres ne font pas : vous répondre quand vous vous trompez.</p>';
   h += '<div class="hero3"><div class="stat"><b>' + done + '/10</b><span>leçons terminées</span></div>';
   h += '<div class="stat"><b>' + avg + '/100</b><span>score moyen des quiz</span></div>';
-  h += '<div class="stat"><b>103</b><span>kanji N5 couverts</span></div></div></div>';
+  h += '<div class="stat"><b>104</b><span>kanji N5 couverts</span></div></div></div>';
 
   var road = [
     ["1", "Kana", "Hiragana + katakana, mnémotechnie française, drill."],
     ["2", "Leçons 1–5", "Se présenter, particules, verbes, adjectifs."],
     ["3", "Leçons 6–10", "Forme て, compteurs, invitations, comparaison."],
-    ["4", "Kanji N5", "103 kanji : sens, lectures, exemples, astuces."],
+    ["4", "Kanji N5", "104 kanji : sens, lectures, exemples, astuces."],
     ["5", "JLPT N5", "Quiz : 80% de réussite régulière = niveau atteint."]
   ];
   h += '<h2 class="serif" style="margin-top:2rem">Le parcours</h2><div class="grid g5" style="margin-top:.75rem">';
@@ -1497,7 +1497,7 @@ function kanjiGridHTML() {
 
 function kanjiHTML() {
   var h = '<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem">';
-  h += '<h2 class="serif">Les 103 kanji du JLPT N5</h2>';
+  h += '<h2 class="serif">Les 104 kanji du JLPT N5</h2>';
   h += '<input class="ksearch" value="' + esc(state.q) + '" oninput="kanjiQuery(this.value)" placeholder="Rechercher (sens ou kanji)…"/></div>';
   if (state.selKanji >= 0) {
     var k = KANJI[state.selKanji];
