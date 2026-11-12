@@ -1,4 +1,3 @@
-<script>
 "use strict";
 const HIRA = [
   { k: "あ", r: "a", m: "Un « a » orné d'une croix : une antenne qui capte." },
