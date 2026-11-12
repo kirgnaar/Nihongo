@@ -1417,4 +1417,3 @@ function render() {
 }
 
 render();
-</script>
