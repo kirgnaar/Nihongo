@@ -106,9 +106,3 @@ const KANJI_RAW = [
 ];
 
 const KANJI = KANJI_RAW.map(function (x) { return { k: x[0], s: x[1], on: x[2], kun: x[3], m: x[4], ex: x[5] }; });
-
-// ============================================================
-// DONNÉES : 10 LEÇONS
-// ============================================================
-
-const LESSONS = [
