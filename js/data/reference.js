@@ -172,5 +172,3 @@ const PHRASES = [
   ["トイレはどこですか", "toire wa doko desu ka", "Où sont les toilettes ?"],
 ];
 
-// ============================================================
-// OUTILS
