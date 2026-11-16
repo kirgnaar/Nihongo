@@ -527,4 +527,10 @@ function srsShow() {
   render();
 }
 
+function srsStart() {
+  var ids = SRS.due();
+  state.srs = ids.length ? { ids: ids, idx: 0, shown: false } : null;
+  render();
+}
+
 render();
