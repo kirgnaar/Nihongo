@@ -529,6 +529,13 @@ function srsShow() {
 
 function srsStart() {
   var ids = SRS.due();
+  var fresh = [];
+  var srcs = srsSources();
+  for (var i = 0; i < srcs.length && fresh.length < 10; i++) {
+    var notYet = srcs[i].cards.filter(function (id) { return SRS.card(id) === null; });
+    fresh = fresh.concat(pick(notYet, 10 - fresh.length));
+  }
+  ids = shuffle(ids.concat(fresh));
   state.srs = ids.length ? { ids: ids, idx: 0, shown: false } : null;
   render();
 }
