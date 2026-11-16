@@ -27,7 +27,7 @@ h3{font-size:1.1rem;margin:1.8rem 0 .7rem}
 .rowf{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin-top:.75rem}
 .kana-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;margin-top:1.25rem}
 .kcell{background:#fff;border:1px solid #e7e5e4;border-radius:.75rem;padding:.5rem 0;text-align:center;cursor:pointer}
-.kcell:hover{border-color:#f87171}
+@media (hover: hover) { .kcell:hover{border-color:#f87171} }
 .kcell.sel{border-color:#dc2626;background:#fef2f2}
 .kcell.empty{border-style:dashed;cursor:default;background:transparent}
 .kcell.empty:hover{border-color:#e7e5e4}
