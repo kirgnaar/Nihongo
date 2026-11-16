@@ -16,4 +16,3 @@ GitHub Pages, branche main. Aucune étape de build. Après toute modification d'
 - Les extractions de code sont faites par un agent local avec vérification par somme SHA-256 ; le contenu pédagogique n'est jamais écrit par le modèle.
 - Audit indépendant avant fusion : comparaison octet par octet et compteurs de contrôle (92 kana, 104 kanji, 10 leçons, 5 decks).
 - Fusion manuelle par le propriétaire du dépôt.
-Somme de contrôle SHA-256 de chaque fichier modifié dans le rapport. Pull Request.
