@@ -590,7 +590,7 @@ function srsSources() {
     {
       id: "vocab",
       title: "語 Vocabulaire",
-      cards: voc.map(function (v) { return "voc:" + v[0]; }),
+      cards: voc.map(function (v) { return "voc:" + v[0]; }).filter(function (id, i, a) { return a.indexOf(id) === i; }),
       front: function (id) { var v = findVoc(id); return v ? v[0] + "（" + v[1] + "）" : id; },
       back: function (id) { var v = findVoc(id); return v ? v[2] : ""; }
     }
