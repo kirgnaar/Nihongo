@@ -30,7 +30,7 @@ h3{font-size:1.1rem;margin:1.8rem 0 .7rem}
 @media (hover: hover) { .kcell:hover{border-color:#f87171} }
 .kcell.sel{border-color:#dc2626;background:#fef2f2}
 .kcell.empty{border-style:dashed;cursor:default;background:transparent}
-.kcell.empty:hover{border-color:#e7e5e4}
+@media (hover: hover) { .kcell.empty:hover{border-color:#e7e5e4} }
 .kk{font-size:1.5rem;color:#1c1917}
 .romaji{font-size:.68rem;color:#78716c}
 .romaji.off{opacity:0}
