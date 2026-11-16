@@ -540,14 +540,6 @@ function srsStart() {
   render();
 }
 
-function srsImport(srcId) {
-  var src = srsSources().filter(function (s) { return s.id === srcId; })[0];
-  if (!src) return;
-  var fresh = src.cards.filter(function (id) { return SRS.card(id) === null; });
-  SRS.add(pick(fresh, 20));
-  render();
-}
-
 // ============================================================
 // RÉVISION ESPACÉE (SRS)
 // ============================================================
