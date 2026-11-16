@@ -513,10 +513,12 @@ function srsJudge(g) {
   var s = state.srs;
   if (!s) return;
   var id = s.ids[s.idx];
+  if (SRS.card(id) === null) SRS.add([id]);
   SRS.judge(id, g);
   if (g === 0) s.ids.push(id);
   s.idx++;
   if (s.idx >= s.ids.length) state.srs = null;
+  else state.srs.shown = false;
   render();
 }
 
