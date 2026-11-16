@@ -463,6 +463,7 @@ function render() {
   else if (state.tab === "grammar") el.innerHTML = grammarHTML();
   else if (state.tab === "kanji") el.innerHTML = kanjiHTML();
   else if (state.tab === "quiz") el.innerHTML = quizHTML();
+  else if (state.tab === "srs") el.innerHTML = srsHTML();
 }
 
 render();
