@@ -541,4 +541,61 @@ function srsImport(srcId) {
   render();
 }
 
+// ============================================================
+// RÉVISION ESPACÉE (SRS)
+// ============================================================
+
+function srsSources() {
+  var voc = [];
+  LESSONS.forEach(function (l) { l.vocab.forEach(function (v) { voc.push(v); }); });
+  function findKana(data, id) {
+    var c = id.slice(2);
+    var f = data.filter(function (x) { return x.k === c; });
+    return f.length ? f[0] : null;
+  }
+  function findKanji(id) {
+    var c = id.slice(6);
+    var f = KANJI.filter(function (x) { return x.k === c; });
+    return f.length ? f[0] : null;
+  }
+  function findVoc(id) {
+    var w = id.slice(4);
+    var f = voc.filter(function (x) { return x[0] === w; });
+    return f.length ? f[0] : null;
+  }
+  return [
+    {
+      id: "hiragana",
+      title: "ひらがな Hiragana",
+      cards: HIRA.map(function (k) { return "h:" + k.k; }),
+      front: function (id) { var k = findKana(HIRA, id); return k ? k.k : id; },
+      back: function (id) { var k = findKana(HIRA, id); return k ? k.r + " — " + k.m : ""; }
+    },
+    {
+      id: "katakana",
+      title: "カタカナ Katakana",
+      cards: KATA.map(function (k) { return "k:" + k.k; }),
+      front: function (id) { var k = findKana(KATA, id); return k ? k.k : id; },
+      back: function (id) { var k = findKana(KATA, id); return k ? k.r + " — " + k.m : ""; }
+    },
+    {
+      id: "kanji",
+      title: "漢字 Kanji N5",
+      cards: KANJI.map(function (k) { return "kanji:" + k.k; }),
+      front: function (id) { var k = findKanji(id); return k ? k.k : id; },
+      back: function (id) {
+        var k = findKanji(id);
+        return k ? k.s + " — on : " + k.on + " · kun : " + k.kun + " — " + k.m : "";
+      }
+    },
+    {
+      id: "vocab",
+      title: "語 Vocabulaire",
+      cards: voc.map(function (v) { return "voc:" + v[0]; }),
+      front: function (id) { var v = findVoc(id); return v ? v[0] + "（" + v[1] + "）" : id; },
+      back: function (id) { var v = findVoc(id); return v ? v[2] : ""; }
+    }
+  ];
+}
+
 render();
