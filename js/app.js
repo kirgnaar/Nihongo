@@ -466,4 +466,49 @@ function render() {
   else if (state.tab === "srs") el.innerHTML = srsHTML();
 }
 
+function srsHTML() {
+  var srcs = srsSources();
+  var s = state.srs;
+  if (!s) {
+    var c = SRS.count();
+    var h = '<h2 class="serif">Révision espacée</h2>';
+    h += '<p class="muted small">Le moteur SRS retient vos cartes et ne vous les présente que lorsqu\'elles sont dues. Importez des sources ci-dessous, puis lancez la session.</p>';
+    if (c.due > 0) {
+      h += '<div class="card" style="text-align:center"><div class="serif" style="font-size:2.2rem">' + esc(c.due) + '</div>';
+      h += '<div class="muted small" style="margin-top:.25rem">cartes dues (' + esc(c.total) + ' enregistrées au total)</div>';
+      h += '<button class="btn primary" style="margin-top:1.25rem" onclick="srsStart()">Commencer la révision</button></div>';
+    } else {
+      h += '<div class="card" style="text-align:center"><div class="serif" style="font-size:1.3rem">Rien à réviser aujourd\'hui.</div>';
+      h += '<div class="muted small" style="margin-top:.25rem">' + esc(c.total) + ' cartes enregistrées, aucune due pour le moment.</div></div>';
+    }
+    h += '<h3 class="serif">Importer des cartes dans le SRS</h3>';
+    h += '<div class="grid g2" style="margin-top:.75rem">';
+    h += srcs.map(function (src) {
+      var known = src.cards.filter(function (id) { return SRS.card(id) !== null; }).length;
+      return '<button class="deck" onclick="srsImport(\'' + src.id + '\')"><div class="dt">' + esc(src.title) + '</div><div class="dd">' + esc(known) + ' enregistrées sur ' + esc(src.cards.length) + ' disponibles</div></button>';
+    }).join("");
+    h += '</div>';
+    return h;
+  }
+  var id = s.ids[s.idx];
+  var src = srcs.filter(function (x) { return x.cards.indexOf(id) >= 0; })[0];
+  var h2 = '<div class="card">';
+  h2 += '<div style="display:flex;justify-content:space-between" class="muted small"><span>Révision</span><span>Carte ' + (s.idx + 1) + ' / ' + s.ids.length + '</span></div>';
+  h2 += '<div class="qbar"><i style="width:' + Math.round((s.idx / s.ids.length) * 100) + '%"></i></div>';
+  h2 += '<div class="qtext">' + esc(src.front(id)) + '</div>';
+  if (!s.shown) {
+    h2 += '<div style="text-align:center"><button class="btn primary" onclick="srsShow()">Voir la réponse</button></div>';
+  } else {
+    h2 += '<div class="feedback"><div style="text-align:center;font-size:1.15rem">' + esc(src.back(id)) + '</div></div>';
+    h2 += '<div class="qchoice">';
+    h2 += '<button class="qc" onclick="srsJudge(0)">Encore</button>';
+    h2 += '<button class="qc" onclick="srsJudge(1)">Difficile</button>';
+    h2 += '<button class="qc" onclick="srsJudge(2)">Bien</button>';
+    h2 += '<button class="qc" onclick="srsJudge(3)">Facile</button>';
+    h2 += '</div>';
+  }
+  h2 += '</div>';
+  return h2;
+}
+
 render();
