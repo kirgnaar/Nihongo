@@ -471,23 +471,21 @@ function srsHTML() {
   var s = state.srs;
   if (!s) {
     var c = SRS.count();
+    var fresh = 0;
+    srcs.forEach(function (src) {
+      src.cards.forEach(function (id) { if (SRS.card(id) === null) fresh++; });
+    });
+    var newCount = Math.min(10, fresh);
     var h = '<h2 class="serif">Révision espacée</h2>';
-    h += '<p class="muted small">Le moteur SRS retient vos cartes et ne vous les présente que lorsqu\'elles sont dues. Importez des sources ci-dessous, puis lancez la session.</p>';
-    if (c.due > 0) {
+    h += '<p class="muted small">Le moteur retient vos cartes et vous les représente quand elles sont dues ; chaque session introduit en plus jusqu\'à 10 cartes nouvelles, prises dans l\'ordre hiragana, katakana, kanji, vocabulaire.</p>';
+    if (c.due > 0 || newCount > 0) {
       h += '<div class="card" style="text-align:center"><div class="serif" style="font-size:2.2rem">' + esc(c.due) + '</div>';
-      h += '<div class="muted small" style="margin-top:.25rem">cartes dues (' + esc(c.total) + ' enregistrées au total)</div>';
+      h += '<div class="muted small" style="margin-top:.25rem">cartes dues (' + esc(c.total) + ' enregistrées au total) — ' + esc(newCount) + ' cartes nouvelles seront proposées</div>';
       h += '<button class="btn primary" style="margin-top:1.25rem" onclick="srsStart()">Commencer la révision</button></div>';
     } else {
       h += '<div class="card" style="text-align:center"><div class="serif" style="font-size:1.3rem">Rien à réviser aujourd\'hui.</div>';
       h += '<div class="muted small" style="margin-top:.25rem">' + esc(c.total) + ' cartes enregistrées, aucune due pour le moment.</div></div>';
     }
-    h += '<h3 class="serif">Importer des cartes dans le SRS</h3>';
-    h += '<div class="grid g2" style="margin-top:.75rem">';
-    h += srcs.map(function (src) {
-      var known = src.cards.filter(function (id) { return SRS.card(id) !== null; }).length;
-      return '<button class="deck" onclick="srsImport(\'' + src.id + '\')"><div class="dt">' + esc(src.title) + '</div><div class="dd">' + esc(known) + ' enregistrées sur ' + esc(src.cards.length) + ' disponibles</div></button>';
-    }).join("");
-    h += '</div>';
     return h;
   }
   var id = s.ids[s.idx];
@@ -515,10 +513,12 @@ function srsJudge(g) {
   var s = state.srs;
   if (!s) return;
   var id = s.ids[s.idx];
+  if (SRS.card(id) === null) SRS.add([id]);
   SRS.judge(id, g);
   if (g === 0) s.ids.push(id);
   s.idx++;
   if (s.idx >= s.ids.length) state.srs = null;
+  else state.srs.shown = false;
   render();
 }
 
@@ -529,15 +529,14 @@ function srsShow() {
 
 function srsStart() {
   var ids = SRS.due();
+  var fresh = [];
+  var srcs = srsSources();
+  for (var i = 0; i < srcs.length && fresh.length < 10; i++) {
+    var notYet = srcs[i].cards.filter(function (id) { return SRS.card(id) === null; });
+    fresh = fresh.concat(pick(notYet, 10 - fresh.length));
+  }
+  ids = shuffle(ids.concat(fresh));
   state.srs = ids.length ? { ids: ids, idx: 0, shown: false } : null;
-  render();
-}
-
-function srsImport(srcId) {
-  var src = srsSources().filter(function (s) { return s.id === srcId; })[0];
-  if (!src) return;
-  var fresh = src.cards.filter(function (id) { return SRS.card(id) === null; });
-  SRS.add(pick(fresh, 20));
   render();
 }
 
@@ -591,7 +590,7 @@ function srsSources() {
     {
       id: "vocab",
       title: "語 Vocabulaire",
-      cards: voc.map(function (v) { return "voc:" + v[0]; }),
+      cards: voc.map(function (v) { return "voc:" + v[0]; }).filter(function (id, i, a) { return a.indexOf(id) === i; }),
       front: function (id) { var v = findVoc(id); return v ? v[0] + "（" + v[1] + "）" : id; },
       back: function (id) { var v = findVoc(id); return v ? v[2] : ""; }
     }
