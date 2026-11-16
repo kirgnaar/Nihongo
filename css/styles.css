@@ -20,7 +20,7 @@ h3{font-size:1.1rem;margin:1.8rem 0 .7rem}
 .btn.primary{background:#b91c1c;color:#fff;border-color:#b91c1c}
 @media (hover: hover) { .btn.primary:hover{background:#991b1b;border-color:#991b1b} }
 .btn.dark{background:#1c1917;color:#fff;border-color:#1c1917}
-.btn.dark:hover{background:#44403c;border-color:#44403c}
+@media (hover: hover) { .btn.dark:hover{background:#44403c;border-color:#44403c} }
 .seg{display:inline-flex;border:1px solid #e7e5e4;background:#fff;border-radius:9999px;padding:.2rem}
 .segbtn{border:0;background:none;border-radius:9999px;padding:.4rem 1rem;font-size:.9rem;color:#57534e;cursor:pointer}
 .segbtn.on{background:#b91c1c;color:#fff}
