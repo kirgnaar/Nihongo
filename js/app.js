@@ -522,4 +522,9 @@ function srsJudge(g) {
   render();
 }
 
+function srsShow() {
+  state.srs.shown = true;
+  render();
+}
+
 render();
