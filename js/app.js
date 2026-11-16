@@ -81,7 +81,7 @@ var scores = load("nihongo-dojo-scores", {});
 var state = { tab: "home", script: "h", romaji: true, selKana: -1, selKanji: -1, selP: 0, openLesson: 1, q: "", quiz: null };
 var lq = null;
 
-var TABS = [["home", "Accueil"], ["kana", "Kana"], ["lessons", "Leçons"], ["grammar", "Grammaire"], ["kanji", "Kanji"], ["quiz", "Quiz"]];
+var TABS = [["home", "Accueil"], ["kana", "Kana"], ["lessons", "Leçons"], ["grammar", "Grammaire"], ["kanji", "Kanji"], ["quiz", "Quiz"], ["srs", "Révision"]];
 
 // ============================================================
 // ACTIONS
@@ -463,6 +463,139 @@ function render() {
   else if (state.tab === "grammar") el.innerHTML = grammarHTML();
   else if (state.tab === "kanji") el.innerHTML = kanjiHTML();
   else if (state.tab === "quiz") el.innerHTML = quizHTML();
+  else if (state.tab === "srs") el.innerHTML = srsHTML();
+}
+
+function srsHTML() {
+  var srcs = srsSources();
+  var s = state.srs;
+  if (!s) {
+    var c = SRS.count();
+    var h = '<h2 class="serif">Révision espacée</h2>';
+    h += '<p class="muted small">Le moteur SRS retient vos cartes et ne vous les présente que lorsqu\'elles sont dues. Importez des sources ci-dessous, puis lancez la session.</p>';
+    if (c.due > 0) {
+      h += '<div class="card" style="text-align:center"><div class="serif" style="font-size:2.2rem">' + esc(c.due) + '</div>';
+      h += '<div class="muted small" style="margin-top:.25rem">cartes dues (' + esc(c.total) + ' enregistrées au total)</div>';
+      h += '<button class="btn primary" style="margin-top:1.25rem" onclick="srsStart()">Commencer la révision</button></div>';
+    } else {
+      h += '<div class="card" style="text-align:center"><div class="serif" style="font-size:1.3rem">Rien à réviser aujourd\'hui.</div>';
+      h += '<div class="muted small" style="margin-top:.25rem">' + esc(c.total) + ' cartes enregistrées, aucune due pour le moment.</div></div>';
+    }
+    h += '<h3 class="serif">Importer des cartes dans le SRS</h3>';
+    h += '<div class="grid g2" style="margin-top:.75rem">';
+    h += srcs.map(function (src) {
+      var known = src.cards.filter(function (id) { return SRS.card(id) !== null; }).length;
+      return '<button class="deck" onclick="srsImport(\'' + src.id + '\')"><div class="dt">' + esc(src.title) + '</div><div class="dd">' + esc(known) + ' enregistrées sur ' + esc(src.cards.length) + ' disponibles</div></button>';
+    }).join("");
+    h += '</div>';
+    return h;
+  }
+  var id = s.ids[s.idx];
+  var src = srcs.filter(function (x) { return x.cards.indexOf(id) >= 0; })[0];
+  var h2 = '<div class="card">';
+  h2 += '<div style="display:flex;justify-content:space-between" class="muted small"><span>Révision</span><span>Carte ' + (s.idx + 1) + ' / ' + s.ids.length + '</span></div>';
+  h2 += '<div class="qbar"><i style="width:' + Math.round((s.idx / s.ids.length) * 100) + '%"></i></div>';
+  h2 += '<div class="qtext">' + esc(src.front(id)) + '</div>';
+  if (!s.shown) {
+    h2 += '<div style="text-align:center"><button class="btn primary" onclick="srsShow()">Voir la réponse</button></div>';
+  } else {
+    h2 += '<div class="feedback"><div style="text-align:center;font-size:1.15rem">' + esc(src.back(id)) + '</div></div>';
+    h2 += '<div class="qchoice">';
+    h2 += '<button class="qc" onclick="srsJudge(0)">Encore</button>';
+    h2 += '<button class="qc" onclick="srsJudge(1)">Difficile</button>';
+    h2 += '<button class="qc" onclick="srsJudge(2)">Bien</button>';
+    h2 += '<button class="qc" onclick="srsJudge(3)">Facile</button>';
+    h2 += '</div>';
+  }
+  h2 += '</div>';
+  return h2;
+}
+
+function srsJudge(g) {
+  var s = state.srs;
+  if (!s) return;
+  var id = s.ids[s.idx];
+  SRS.judge(id, g);
+  if (g === 0) s.ids.push(id);
+  s.idx++;
+  if (s.idx >= s.ids.length) state.srs = null;
+  render();
+}
+
+function srsShow() {
+  state.srs.shown = true;
+  render();
+}
+
+function srsStart() {
+  var ids = SRS.due();
+  state.srs = ids.length ? { ids: ids, idx: 0, shown: false } : null;
+  render();
+}
+
+function srsImport(srcId) {
+  var src = srsSources().filter(function (s) { return s.id === srcId; })[0];
+  if (!src) return;
+  var fresh = src.cards.filter(function (id) { return SRS.card(id) === null; });
+  SRS.add(pick(fresh, 20));
+  render();
+}
+
+// ============================================================
+// RÉVISION ESPACÉE (SRS)
+// ============================================================
+
+function srsSources() {
+  var voc = [];
+  LESSONS.forEach(function (l) { l.vocab.forEach(function (v) { voc.push(v); }); });
+  function findKana(data, id) {
+    var c = id.slice(2);
+    var f = data.filter(function (x) { return x.k === c; });
+    return f.length ? f[0] : null;
+  }
+  function findKanji(id) {
+    var c = id.slice(6);
+    var f = KANJI.filter(function (x) { return x.k === c; });
+    return f.length ? f[0] : null;
+  }
+  function findVoc(id) {
+    var w = id.slice(4);
+    var f = voc.filter(function (x) { return x[0] === w; });
+    return f.length ? f[0] : null;
+  }
+  return [
+    {
+      id: "hiragana",
+      title: "ひらがな Hiragana",
+      cards: HIRA.map(function (k) { return "h:" + k.k; }),
+      front: function (id) { var k = findKana(HIRA, id); return k ? k.k : id; },
+      back: function (id) { var k = findKana(HIRA, id); return k ? k.r + " — " + k.m : ""; }
+    },
+    {
+      id: "katakana",
+      title: "カタカナ Katakana",
+      cards: KATA.map(function (k) { return "k:" + k.k; }),
+      front: function (id) { var k = findKana(KATA, id); return k ? k.k : id; },
+      back: function (id) { var k = findKana(KATA, id); return k ? k.r + " — " + k.m : ""; }
+    },
+    {
+      id: "kanji",
+      title: "漢字 Kanji N5",
+      cards: KANJI.map(function (k) { return "kanji:" + k.k; }),
+      front: function (id) { var k = findKanji(id); return k ? k.k : id; },
+      back: function (id) {
+        var k = findKanji(id);
+        return k ? k.s + " — on : " + k.on + " · kun : " + k.kun + " — " + k.m : "";
+      }
+    },
+    {
+      id: "vocab",
+      title: "語 Vocabulaire",
+      cards: voc.map(function (v) { return "voc:" + v[0]; }),
+      front: function (id) { var v = findVoc(id); return v ? v[0] + "（" + v[1] + "）" : id; },
+      back: function (id) { var v = findVoc(id); return v ? v[2] : ""; }
+    }
+  ];
 }
 
 render();
