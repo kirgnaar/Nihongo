@@ -94,7 +94,7 @@ tr:nth-child(even) td{background:#fafaf9}
 .ok{color:#15803d;font-weight:600}
 .ko{color:#b91c1c;font-weight:600}
 .deck{background:#fff;border:1px solid #e7e5e4;border-radius:1rem;padding:1.5rem;text-align:left;cursor:pointer}
-.deck:hover{border-color:#ef4444;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+@media (hover: hover) { .deck:hover{border-color:#ef4444;box-shadow:0 4px 14px rgba(0,0,0,.06)} }
 .deck .dt{font-family:Georgia,serif;font-size:1.15rem;color:#1c1917}
 .deck .dd{font-size:.85rem;color:#78716c;margin-top:.25rem}
 .deck .ds{font-size:.72rem;color:#15803d;font-weight:600;margin-top:.6rem}
