@@ -15,12 +15,12 @@ const LECTURES = [
       ["はじめまして。リナです。", "はじめまして。リナです。", "Enchantée. Je m'appelle Lina."],
       ["リナはフランス人です。学生です。", "リナはフランスじんです。がくせいです。", "Lina est française. Elle est étudiante."],
       ["田中さんは日本語の先生です。", "たなかさんはにほんごのせんせいです。", "Monsieur Tanaka est professeur de japonais."],
-      ["「田中さんは学生ですか。」「いいえ、会社員です。」", "「たなかさんはがくせいですか。」「いいえ、かいしゃいんです。」", "« Êtes-vous étudiant, Monsieur Tanaka ? » « Non, je suis employé de bureau. »"],
+      ["「リナさんは会社員ですか。」「いいえ、学生です。」", "「リナさんはかいしゃいんですか。」「いいえ、がくせいです。」", "« Êtes-vous employée de bureau, Lina ? » « Non, je suis étudiante. »"],
       ["よろしくお願いします。", "よろしくおねがいします。", "Ravi de vous rencontrer."]
     ],
     quiz: [
       { q: "Que fait Monsieur Tanaka dans le texte ?", choices: ["Il est étudiant", "Il est professeur de japonais", "Il est employé de bureau", "Il est français"], a: 1, e: "日本語の先生です : professeur de japonais. の relie les deux noms, comme « de » en français." },
-      { q: "Que répond Tanaka à « 学生ですか » ?", choices: ["はい", "はじめまして", "よろしくお願いします", "いいえ"], a: 3, e: "いいえ、会社員です : il n'est pas étudiant, il est employé de bureau." },
+      { q: "Que répond Lina à « 会社員ですか » ?", choices: ["はい", "はじめまして", "よろしくお願いします", "いいえ"], a: 3, e: "いいえ、学生です : elle n'est pas employée de bureau, elle est étudiante." },
       { q: "「よろしくお願いします » s'emploie :", choices: ["À la fin d'une présentation", "Pour demander le prix", "Pour dire non", "Pour commander un plat"], a: 0, e: "Formule de politesse qui conclut une première rencontre." }
     ],
   },
@@ -300,7 +300,7 @@ const LECTURES = [
       ["一緒に勉強します。", "いっしょにべんきょうします。", "Ils étudient ensemble."],
       ["日曜日は何もしません。", "にちようびはなにもしません。", "Le dimanche, elle ne fait rien."],
       ["来週も授業があります。", "らいしゅうもじゅぎょうがあります。", "La semaine prochaine, il y a aussi cours."],
-      ["日曜日に友達とカフェへ行きます。コーヒーを飲みます。", "にちようびにともだちとカフェへいきます。コーヒーをのみます。", "Dimanche, elle ira au café avec une amie. Elles boiront un café."],
+      ["土曜日に友達とカフェへ行きます。コーヒーを飲みます。", "どようびにともだちとカフェへいきます。コーヒーをのみます。", "Samedi, elle ira au café avec une amie. Elles boiront un café."],
       ["テストは大変です。リナは頑張ります。", "テストはたいへんです。リナはがんばります。", "Le test est stressant. Lina persévère."]
     ],
     quiz: [
