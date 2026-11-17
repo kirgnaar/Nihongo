@@ -21,9 +21,11 @@ function pick(a, n) { return shuffle(a).slice(0, n); }
 
 function buildKanaDeck(kana) {
   return pick(kana, 10).map(function (k) {
-    var wrong = pick(kana.filter(function (x) { return x.r !== k.r; }), 3).map(function (x) { return x.r; });
-    var choices = shuffle([k.r].concat(wrong));
-    return { q: k.k, choices: choices, a: choices.indexOf(k.r), e: k.k + " → " + k.r };
+    var wrong = pick(kana.filter(function (x) { return x.r !== k.r; }), 3);
+    var choices = shuffle([k.r].concat(wrong.map(function (x) { return x.r; })));
+    var w = {};
+    wrong.forEach(function (x) { w[x.r] = x.r + " est la lecture de " + x.k; });
+    return { q: k.k, choices: choices, a: choices.indexOf(k.r), e: k.k + " → " + k.r, w: w };
   });
 }
 function buildKanjiDeck() {
