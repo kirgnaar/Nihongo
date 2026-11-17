@@ -330,7 +330,11 @@ function kanaHTML() {
 
 function lessonQuizHTML(n) {
   if (!lq || lq.n !== n) {
-    return '<div style="margin-top:1.5rem"><button class="btn primary" onclick="startLQ(' + n + ')">Lancer le mini-quiz (3 questions)</button></div>';
+    return '<div class="rowf" style="margin-top:1.5rem;flex-wrap:wrap">' +
+      '<button class="btn primary" onclick="startLQ(' + n + ', 0)">Quiz rédigé</button>' +
+      '<button class="btn" onclick="startLQ(' + n + ', 1)">Niveau 1 Reconnaissance</button>' +
+      '<button class="btn" onclick="startLQ(' + n + ', 2)">Niveau 2 Production</button>' +
+      '<button class="btn" onclick="startLQ(' + n + ', 3)">Niveau 3 Application</button></div>';
   }
   var h = "";
   if (lq.done) {
