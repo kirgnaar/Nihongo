@@ -216,9 +216,14 @@ function qRestart() {
   qz.items = DECKS.filter(function (x) { return x.id === qz.id; })[0].build();
   render();
 }
-function startLQ(n) {
+function startLQ(n, level) {
   var l = LESSONS[n - 1];
-  lq = { n: n, items: l.quiz.slice(), idx: 0, score: 0, picked: null, done: false };
+  var items;
+  if (level === 1) items = buildLQ1(l);
+  else if (level === 2) items = buildLQ2(l);
+  else if (level === 3) items = buildLQ3(l);
+  else items = l.quiz.slice();
+  lq = { n: n, level: level || 0, items: items, idx: 0, score: 0, picked: null, done: false };
   render();
 }
 function lqChoose(c) {
@@ -325,7 +330,11 @@ function kanaHTML() {
 
 function lessonQuizHTML(n) {
   if (!lq || lq.n !== n) {
-    return '<div style="margin-top:1.5rem"><button class="btn primary" onclick="startLQ(' + n + ')">Lancer le mini-quiz (3 questions)</button></div>';
+    return '<div class="rowf" style="margin-top:1.5rem;flex-wrap:wrap">' +
+      '<button class="btn primary" onclick="startLQ(' + n + ', 0)">Quiz rédigé</button>' +
+      '<button class="btn" onclick="startLQ(' + n + ', 1)">Niveau 1 Reconnaissance</button>' +
+      '<button class="btn" onclick="startLQ(' + n + ', 2)">Niveau 2 Production</button>' +
+      '<button class="btn" onclick="startLQ(' + n + ', 3)">Niveau 3 Application</button></div>';
   }
   var h = "";
   if (lq.done) {
@@ -336,6 +345,8 @@ function lessonQuizHTML(n) {
     return h;
   }
   var it = lq.items[lq.idx];
+  var levelNames = ["Quiz rédigé", "Reconnaissance", "Production", "Application"];
+  h += '<div class="muted small" style="margin-bottom:.4rem">Niveau en cours : ' + levelNames[lq.level || 0] + '</div>';
   h += '<div class="qbar"><i style="width:' + Math.round(((lq.idx + (lq.picked !== null ? 1 : 0)) / lq.items.length) * 100) + '%"></i></div>';
   h += '<div class="qtext">' + esc(it.q) + '</div>';
   h += '<div class="qchoice">' + it.choices.map(function (c, i) {
@@ -344,7 +355,8 @@ function lessonQuizHTML(n) {
     return '<button class="' + cls + '" onclick="lqChoose(' + i + ')">' + esc(c) + '</button>';
   }).join("") + '</div>';
   if (lq.picked !== null) {
-    h += '<div class="feedback"><div class="fbrow"><div>' + (lq.picked === it.a ? '<span class="ok">正解 ! </span>' : '<span class="ko">残念… </span>') + esc(it.e) + '</div>';
+    var wrongLine = lq.picked !== it.a ? "Votre réponse : " + esc(it.choices[lq.picked]) + " — " + esc((it.w && it.w[it.choices[lq.picked]]) || "") + "<br>" : "";
+    h += '<div class="feedback"><div class="fbrow"><div>' + wrongLine + (lq.picked === it.a ? '<span class="ok">正解 ! </span>' : '<span class="ko">残念… </span>') + esc(it.e) + '</div>';
     h += '<button class="btn dark" onclick="lqNext()">' + (lq.idx + 1 >= lq.items.length ? "Terminer" : "Suivant") + '</button></div></div>';
   }
   return h;
