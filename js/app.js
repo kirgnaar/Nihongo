@@ -14,6 +14,9 @@ function shuffle(a) {
   return a;
 }
 function pick(a, n) { return shuffle(a).slice(0, n); }
+function ttsBtn(t) {
+  return '<button class="btn" style="padding:.2rem .6rem;font-size:.85rem;vertical-align:middle" onclick="TTS.speak(\'' + esc(String(t).replace(/'/g, "\\'")) + '\')">🔊</button>';
+}
 
 // ============================================================
 // DECKS DE QUIZ
