@@ -345,6 +345,8 @@ function lessonQuizHTML(n) {
     return h;
   }
   var it = lq.items[lq.idx];
+  var levelNames = ["Quiz rédigé", "Reconnaissance", "Production", "Application"];
+  h += '<div class="muted small" style="margin-bottom:.4rem">Niveau en cours : ' + levelNames[lq.level || 0] + '</div>';
   h += '<div class="qbar"><i style="width:' + Math.round(((lq.idx + (lq.picked !== null ? 1 : 0)) / lq.items.length) * 100) + '%"></i></div>';
   h += '<div class="qtext">' + esc(it.q) + '</div>';
   h += '<div class="qchoice">' + it.choices.map(function (c, i) {
@@ -353,7 +355,8 @@ function lessonQuizHTML(n) {
     return '<button class="' + cls + '" onclick="lqChoose(' + i + ')">' + esc(c) + '</button>';
   }).join("") + '</div>';
   if (lq.picked !== null) {
-    h += '<div class="feedback"><div class="fbrow"><div>' + (lq.picked === it.a ? '<span class="ok">正解 ! </span>' : '<span class="ko">残念… </span>') + esc(it.e) + '</div>';
+    var wrongLine = lq.picked !== it.a ? "Votre réponse : " + esc(it.choices[lq.picked]) + " — " + esc((it.w && it.w[it.choices[lq.picked]]) || "") + "<br>" : "";
+    h += '<div class="feedback"><div class="fbrow"><div>' + wrongLine + (lq.picked === it.a ? '<span class="ok">正解 ! </span>' : '<span class="ko">残念… </span>') + esc(it.e) + '</div>';
     h += '<button class="btn dark" onclick="lqNext()">' + (lq.idx + 1 >= lq.items.length ? "Terminer" : "Suivant") + '</button></div></div>';
   }
   return h;
