@@ -465,7 +465,8 @@ function quizHTML() {
     return '<button class="' + cls + '" onclick="qChoose(' + i + ')">' + esc(c) + '</button>';
   }).join("") + '</div>';
   if (qz.picked !== null) {
-    h2c += '<div class="feedback"><div class="fbrow"><div>' + (qz.picked === it.a ? '<span class="ok">正解 ! </span>' : '<span class="ko">残念… </span>') + esc(it.e) + '</div>';
+    var wrongLine = qz.picked !== it.a ? "Votre réponse : " + esc(it.choices[qz.picked]) + " — " + esc(it.w[it.choices[qz.picked]]) + "<br>" : "";
+    h2c += '<div class="feedback"><div class="fbrow"><div>' + wrongLine + (qz.picked === it.a ? '<span class="ok">正解 ! </span>' : '<span class="ko">残念… </span>') + esc(it.e) + '</div>';
     h2c += '<button class="btn dark" onclick="qNext()">' + (qz.idx + 1 >= qz.items.length ? "Terminer" : "Suivant") + '</button></div></div>';
   }
   h2c += '</div>';
