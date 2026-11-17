@@ -99,7 +99,7 @@ function save(k, v) {
 
 var lessonsDone = load("nihongo-dojo-lessons", []);
 var scores = load("nihongo-dojo-scores", {});
-var state = { tab: "home", script: "h", romaji: true, selKana: -1, selKanji: -1, selP: 0, openLesson: 1, q: "", quiz: null };
+var state = { tab: "home", script: "h", romaji: true, selKana: -1, selKanji: -1, selP: 0, openLesson: 1, q: "", quiz: null, openLecture: null, revealed: {}, rquiz: null };
 function vocabPool(n) {
   var l = LESSONS[n - 1];
   var pool = l.vocab.slice();
