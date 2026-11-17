@@ -356,7 +356,8 @@ function lessonQuizHTML(n) {
     return '<button class="' + cls + '" onclick="lqChoose(' + i + ')">' + esc(c) + '</button>';
   }).join("") + '</div>';
   if (lq.picked !== null) {
-    var wrongLine = lq.picked !== it.a ? "Votre réponse : " + esc(it.choices[lq.picked]) + " — " + esc((it.w && it.w[it.choices[lq.picked]]) || "") + "<br>" : "";
+    var wl = lq.picked !== it.a ? (it.w ? it.w[it.choices[lq.picked]] : null) : null;
+    var wrongLine = lq.picked !== it.a ? "Votre réponse : " + esc(it.choices[lq.picked]) + (wl ? " — " + esc(wl) : "") + "<br>" : "";
     h += '<div class="feedback"><div class="fbrow"><div>' + wrongLine + (lq.picked === it.a ? '<span class="ok">正解 ! </span>' : '<span class="ko">残念… </span>') + esc(it.e) + '</div>';
     h += '<button class="btn dark" onclick="lqNext()">' + (lq.idx + 1 >= lq.items.length ? "Terminer" : "Suivant") + '</button></div></div>';
   }
