@@ -498,7 +498,7 @@ function kanjiHTML() {
     h += '<div style="font-size:1.2rem;font-weight:600">' + esc(k.s) + '</div>';
     h += '<div style="margin-top:.5rem"><span class="pill">音 on\'yomi : ' + esc(k.on) + '</span> <span class="pill">訓 kun\'yomi : ' + esc(k.kun) + '</span></div>';
     h += '<p style="margin-top:.6rem">' + esc(k.m) + '</p>';
-    h += '<div class="exbox" style="background:#fff"><b>' + esc(k.ex[0]) + '</b> <span class="muted small">(' + esc(k.ex[1]) + ')</span> <span class="tr">— ' + esc(k.ex[2]) + '</span></div></div></div>';
+    h += '<div class="exbox" style="background:#fff"><b>' + esc(k.ex[0]) + '</b> <span class="muted small">(' + esc(k.ex[1]) + ')</span> <span class="tr">— ' + esc(k.ex[2]) + '</span> ' + ttsBtn(k.ex[0]) + '</div></div></div>';
   }
   h += '<div class="kanji-grid" id="kgrid">' + kanjiGridHTML() + '</div>';
   h += '<p class="muted small" style="margin-top:1.25rem">Astuce : les lectures on\'yomi servent aux mots composés d\'origine chinoise (日本, 学校) ; les lectures kun\'yomi aux mots japonais seuls (山, 川).</p>';
