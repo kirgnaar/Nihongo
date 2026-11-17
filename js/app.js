@@ -453,7 +453,7 @@ function grammarHTML() {
   ADJ_CONJ.forEach(function (a) {
     h += '<div class="compcard"><div class="cp">' + esc(a.t) + '</div>';
     a.rows.forEach(function (r) {
-      h += '<div style="display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid #f0efee;padding:.35rem 0;font-size:.88rem"><span class="muted">' + esc(r[0]) + '</span><span style="text-align:right">' + esc(r[1]) + '</span></div>';
+      h += '<div style="display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid #f0efee;padding:.35rem 0;font-size:.88rem"><span class="muted">' + esc(r[0]) + '</span><span style="text-align:right">' + esc(r[1]) + ' ' + ttsBtn(r[1].split(" — ")[0]) + '</span></div>';
     });
     h += '</div>';
   });
