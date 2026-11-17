@@ -421,7 +421,7 @@ function grammarHTML() {
   COMPARISONS.forEach(function (c) {
     h += '<div class="compcard"><div class="cp">' + esc(c.pair) + '</div>';
     c.rows.forEach(function (r) {
-      h += '<div class="exbox"><b>' + esc(r[0]) + '</b><div class="tr">' + esc(r[1]) + '</div><div style="font-size:.75rem;color:#b91c1c;font-weight:600;margin-top:.15rem">' + esc(r[2]) + '</div></div>';
+      h += '<div class="exbox"><b>' + esc(r[0]) + '</b> ' + ttsBtn(r[0]) + '<div class="tr">' + esc(r[1]) + '</div><div style="font-size:.75rem;color:#b91c1c;font-weight:600;margin-top:.15rem">' + esc(r[2]) + '</div></div>';
     });
     h += '</div>';
   });
