@@ -317,7 +317,7 @@ function kanaHTML() {
   COMBOS.forEach(function (c, ri) {
     h += '<tr' + (ri % 2 ? ' style="background:#fafaf9"' : "") + '>';
     for (var j = 0; j < 3; j++) {
-      h += '<td style="text-align:center"><span class="serif" style="font-size:1.05rem">' + (state.script === "h" ? c.h[j] : c.k[j]) + '</span> <span class="muted small">' + esc(c.r[j]) + '</span></td>';
+      h += '<td style="text-align:center"><span class="serif" style="font-size:1.05rem">' + (state.script === "h" ? c.h[j] : c.k[j]) + '</span> ' + ttsBtn(state.script === "h" ? c.h[j] : c.k[j]) + ' <span class="muted small">' + esc(c.r[j]) + '</span></td>';
     }
     h += '</tr>';
   });
