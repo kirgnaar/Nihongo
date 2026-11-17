@@ -216,9 +216,14 @@ function qRestart() {
   qz.items = DECKS.filter(function (x) { return x.id === qz.id; })[0].build();
   render();
 }
-function startLQ(n) {
+function startLQ(n, level) {
   var l = LESSONS[n - 1];
-  lq = { n: n, items: l.quiz.slice(), idx: 0, score: 0, picked: null, done: false };
+  var items;
+  if (level === 1) items = buildLQ1(l);
+  else if (level === 2) items = buildLQ2(l);
+  else if (level === 3) items = buildLQ3(l);
+  else items = l.quiz.slice();
+  lq = { n: n, level: level || 0, items: items, idx: 0, score: 0, picked: null, done: false };
   render();
 }
 function lqChoose(c) {
