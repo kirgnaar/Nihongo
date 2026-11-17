@@ -462,7 +462,7 @@ function grammarHTML() {
   h += '<h2 class="serif" style="margin-top:2.5rem">Nombres et compteurs</h2><div class="grid g2" style="margin-top:.75rem">';
   h += '<div class="compcard"><div class="cp">Nombres de base</div><div class="grid g3" style="margin-top:.5rem">';
   NUMBERS.forEach(function (n) {
-    h += '<div class="exbox">' + esc(n[0]) + '<div class="tr">' + esc(n[1]) + '</div></div>';
+    h += '<div class="exbox">' + esc(n[0]) + ' ' + ttsBtn(n[0]) + '<div class="tr">' + esc(n[1]) + '</div></div>';
   });
   h += '</div></div><div class="compcard"><div class="cp">Compteurs usuels</div>';
   COUNTERS.forEach(function (c) {
