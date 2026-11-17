@@ -45,7 +45,7 @@ function buildVocabDeck() {
     var choices = shuffle([v[2]].concat(wrong.map(function (x) { return x[2]; })));
     var w = {};
     wrong.forEach(function (x) { w[x[2]] = "« " + x[2] + " » correspond à " + x[0] + "（" + x[1] + "）"; });
-    return { q: v[0] + "（" + v[1] + "）", choices: choices, a: choices.indexOf(v[2]), e: v[0] + " = " + v[2], w: w };" + v[1] + "）", choices: choices, a: choices.indexOf(v[2]), e: v[0] + " = " + v[2] };
+    return { q: v[0] + "（" + v[1] + "）", choices: choices, a: choices.indexOf(v[2]), e: v[0] + " = " + v[2], w: w };
   });
 }
 function buildParticleDeck() {
