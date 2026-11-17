@@ -273,7 +273,7 @@ function homeHTML() {
   h += '<h2 class="serif" style="margin-top:2rem">Phrases de survie</h2><p class="muted small">À connaître avant tout le reste. Rōmaji fourni pour le premier voyage.</p>';
   h += '<div class="grid g3" style="margin-top:.75rem">';
   h += PHRASES.map(function (p) {
-    return '<div class="phcard"><div class="pj">' + esc(p[0]) + '</div><div class="pr">' + esc(p[1]) + '</div><div class="pf">' + esc(p[2]) + '</div></div>';
+    return '<div class="phcard"><div class="pj">' + esc(p[0]) + ' ' + ttsBtn(p[0]) + '</div><div class="pr">' + esc(p[1]) + '</div><div class="pf">' + esc(p[2]) + '</div></div>';
   }).join("");
   h += '</div>';
   return h;
@@ -307,7 +307,7 @@ function kanaHTML() {
   DAKU.forEach(function (d) {
     h += '<div class="card"><span class="pill" style="margin:0 0 .5rem">' + esc(d.label) + '</span><div class="rowf" style="margin-top:.25rem">';
     for (var i = 0; i < 5; i++) {
-      h += '<div style="width:3.6rem;text-align:center;background:#f5f5f4;border:1px solid #f0efee;border-radius:.6rem;padding:.4rem 0"><div class="serif" style="font-size:1.15rem">' + (state.script === "h" ? d.h[i] : d.k[i]) + '</div><div style="font-size:.6rem;color:#78716c">' + esc(d.r[i]) + '</div></div>';
+      h += '<div style="width:3.6rem;text-align:center;background:#f5f5f4;border:1px solid #f0efee;border-radius:.6rem;padding:.4rem 0"><div class="serif" style="font-size:1.15rem">' + (state.script === "h" ? d.h[i] : d.k[i]) + '</div>' + ttsBtn(state.script === "h" ? d.h[i] : d.k[i]) + '<div style="font-size:.6rem;color:#78716c">' + esc(d.r[i]) + '</div></div>';
     }
     h += '</div><div class="muted small" style="margin-top:.5rem">' + esc(d.note) + '</div></div>';
   });
@@ -317,7 +317,7 @@ function kanaHTML() {
   COMBOS.forEach(function (c, ri) {
     h += '<tr' + (ri % 2 ? ' style="background:#fafaf9"' : "") + '>';
     for (var j = 0; j < 3; j++) {
-      h += '<td style="text-align:center"><span class="serif" style="font-size:1.05rem">' + (state.script === "h" ? c.h[j] : c.k[j]) + '</span> <span class="muted small">' + esc(c.r[j]) + '</span></td>';
+      h += '<td style="text-align:center"><span class="serif" style="font-size:1.05rem">' + (state.script === "h" ? c.h[j] : c.k[j]) + '</span> ' + ttsBtn(state.script === "h" ? c.h[j] : c.k[j]) + ' <span class="muted small">' + esc(c.r[j]) + '</span></td>';
     }
     h += '</tr>';
   });
@@ -421,7 +421,7 @@ function grammarHTML() {
   COMPARISONS.forEach(function (c) {
     h += '<div class="compcard"><div class="cp">' + esc(c.pair) + '</div>';
     c.rows.forEach(function (r) {
-      h += '<div class="exbox"><b>' + esc(r[0]) + '</b><div class="tr">' + esc(r[1]) + '</div><div style="font-size:.75rem;color:#b91c1c;font-weight:600;margin-top:.15rem">' + esc(r[2]) + '</div></div>';
+      h += '<div class="exbox"><b>' + esc(r[0]) + '</b> ' + ttsBtn(r[0]) + '<div class="tr">' + esc(r[1]) + '</div><div style="font-size:.75rem;color:#b91c1c;font-weight:600;margin-top:.15rem">' + esc(r[2]) + '</div></div>';
     });
     h += '</div>';
   });
@@ -431,15 +431,15 @@ function grammarHTML() {
   h += '<p class="muted small">他動詞 (transitif) : agit sur un objet → を. 自動詞 (intransitif) : pas d\'objet → が. C\'est la même action, vue de l\'agent ou de la chose.</p>';
   h += '<table><thead><tr><th>Transitif (を)</th><th>Intransitif (が)</th><th>Exemple transitif</th><th>Exemple intransitif</th></tr></thead><tbody>';
   TRANS_PAIRS.forEach(function (r) {
-    h += '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td><td class="muted">' + esc(r[2]) + '</td><td class="muted">' + esc(r[3]) + '</td></tr>';
+    h += '<tr><td>' + esc(r[0]) + ' ' + ttsBtn(r[0].split(" (")[0]) + '</td><td>' + esc(r[1]) + ' ' + ttsBtn(r[1].split(" (")[0]) + '</td><td class="muted">' + esc(r[2]) + ' ' + ttsBtn(r[2].split(" ")[0]) + '</td><td class="muted">' + esc(r[3]) + ' ' + ttsBtn(r[3].split(" ")[0]) + '</td></tr>';
   });
   h += '</tbody></table>';
 
   h += '<h2 class="serif" style="margin-top:2.5rem">Conjugaison — forme polie</h2>';
   h += '<table><thead><tr><th>Verbe (groupe)</th><th>Présent</th><th>Négatif</th><th>Passé</th><th>Passé négatif</th><th>Forme て</th></tr></thead><tbody>';
   VERB_TABLE.forEach(function (v) {
-    h += '<tr><td>' + esc(v.verb) + ' <span class="muted small">G' + esc(v.group) + '</span></td>';
-    v.forms.forEach(function (f) { h += '<td>' + esc(f) + '</td>'; });
+    h += '<tr><td>' + esc(v.verb) + ' ' + ttsBtn(v.verb.split(" — ")[0]) + ' <span class="muted small">G' + esc(v.group) + '</span></td>';
+    v.forms.forEach(function (f) { h += '<td>' + esc(f) + ' ' + ttsBtn(f) + '</td>'; });
     h += '</tr>';
   });
   h += '</tbody></table>';
@@ -453,7 +453,7 @@ function grammarHTML() {
   ADJ_CONJ.forEach(function (a) {
     h += '<div class="compcard"><div class="cp">' + esc(a.t) + '</div>';
     a.rows.forEach(function (r) {
-      h += '<div style="display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid #f0efee;padding:.35rem 0;font-size:.88rem"><span class="muted">' + esc(r[0]) + '</span><span style="text-align:right">' + esc(r[1]) + '</span></div>';
+      h += '<div style="display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid #f0efee;padding:.35rem 0;font-size:.88rem"><span class="muted">' + esc(r[0]) + '</span><span style="text-align:right">' + esc(r[1]) + ' ' + ttsBtn(r[1].split(" — ")[0]) + '</span></div>';
     });
     h += '</div>';
   });
@@ -462,11 +462,11 @@ function grammarHTML() {
   h += '<h2 class="serif" style="margin-top:2.5rem">Nombres et compteurs</h2><div class="grid g2" style="margin-top:.75rem">';
   h += '<div class="compcard"><div class="cp">Nombres de base</div><div class="grid g3" style="margin-top:.5rem">';
   NUMBERS.forEach(function (n) {
-    h += '<div class="exbox">' + esc(n[0]) + '<div class="tr">' + esc(n[1]) + '</div></div>';
+    h += '<div class="exbox">' + esc(n[0]) + ' ' + ttsBtn(n[0]) + '<div class="tr">' + esc(n[1]) + '</div></div>';
   });
   h += '</div></div><div class="compcard"><div class="cp">Compteurs usuels</div>';
   COUNTERS.forEach(function (c) {
-    h += '<div class="exbox"><b>' + esc(c[0]) + '</b> <span class="muted">' + esc(c[1]) + '</span><div class="tr">' + esc(c[2]) + '</div></div>';
+    h += '<div class="exbox"><b>' + esc(c[0]) + '</b> ' + ttsBtn(c[2]) + ' <span class="muted">' + esc(c[1]) + '</span><div class="tr">' + esc(c[2]) + '</div></div>';
   });
   h += '</div></div>';
   return h;
