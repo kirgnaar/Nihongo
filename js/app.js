@@ -97,6 +97,66 @@ function save(k, v) {
 var lessonsDone = load("nihongo-dojo-lessons", []);
 var scores = load("nihongo-dojo-scores", {});
 var state = { tab: "home", script: "h", romaji: true, selKana: -1, selKanji: -1, selP: 0, openLesson: 1, q: "", quiz: null };
+function vocabPool(n) {
+  var l = LESSONS[n - 1];
+  var pool = l.vocab.slice();
+  if (pool.length < 8) {
+    var others = [];
+    LESSONS.forEach(function (o) { if (o.n !== n) others = others.concat(o.vocab); });
+    pool = pool.concat(pick(others, 8 - pool.length));
+  }
+  return pool;
+}
+
+function buildLQ1(l) {
+  var pool = vocabPool(l.n);
+  var words = pick(l.vocab, Math.min(3, l.vocab.length));
+  return words.map(function (v) {
+    var wrong = pick(pool.filter(function (x) { return x[2] !== v[2]; }), 3);
+    var choices = shuffle([v[2]].concat(wrong.map(function (x) { return x[2]; })));
+    var w = {};
+    wrong.forEach(function (x) { w[x[2]] = "« " + x[2] + " » correspond à " + x[0] + "（" + x[1] + "）"; });
+    return { q: v[0] + "（" + v[1] + "）", choices: choices, a: choices.indexOf(v[2]), e: v[0] + " = " + v[2], w: w };
+  });
+}
+
+function buildLQ2(l) {
+  var pool = vocabPool(l.n);
+  var words = pick(l.vocab, Math.min(3, l.vocab.length));
+  return words.map(function (v) {
+    var form = function (x) { return x[0] + "（" + x[1] + "）"; };
+    var wrong = pick(pool.filter(function (x) { return x[0] !== v[0]; }), 3);
+    var choices = shuffle([form(v)].concat(wrong.map(form)));
+    var w = {};
+    wrong.forEach(function (x) { w[form(x)] = "« " + x[0] + " » signifie " + x[2]; });
+    return { q: "Comment dit-on : " + v[2] + " ?", choices: choices, a: choices.indexOf(form(v)), e: v[2] + " = " + form(v), w: w };
+  });
+}
+
+function buildLQ3(l) {
+  var pool = vocabPool(l.n);
+  var cands = [];
+  l.grammar.forEach(function (g) { g.ex.forEach(function (x) { cands.push(x[0]); }); });
+  l.dialog.forEach(function (d) { cands.push(d[1]); });
+  var qs = [], used = [];
+  cands.forEach(function (s) {
+    if (qs.length >= 3) return;
+    l.vocab.forEach(function (v) {
+      if (qs.length >= 3 || used.indexOf(v[0]) >= 0) return;
+      if (s.indexOf(v[0]) >= 0) {
+        used.push(v[0]);
+        var wrong = pick(pool.filter(function (x) { return x[0] !== v[0]; }), 3);
+        var choices = shuffle([v[0]].concat(wrong.map(function (x) { return x[0]; })));
+        var w = {};
+        wrong.forEach(function (x) { w[x[0]] = "« " + x[0] + " » signifie " + x[2]; });
+        qs.push({ q: s.split(v[0]).join("＿"), choices: choices, a: choices.indexOf(v[0]), e: s, w: w });
+      }
+    });
+  });
+  if (qs.length < 3) return buildLQ1(l);
+  return qs;
+}
+
 var lq = null;
 
 var TABS = [["home", "Accueil"], ["kana", "Kana"], ["lessons", "Leçons"], ["grammar", "Grammaire"], ["kanji", "Kanji"], ["quiz", "Quiz"], ["srs", "Révision"]];
