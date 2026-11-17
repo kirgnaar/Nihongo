@@ -238,6 +238,38 @@ function lqRestart() {
   lq.idx = 0; lq.score = 0; lq.picked = null; lq.done = false;
   render();
 }
+function openLecture(id) {
+  state.openLecture = state.openLecture === id ? null : id;
+  state.revealed = {};
+  state.rquiz = null;
+  render();
+}
+function toggleLine(i) {
+  state.revealed[i] = !state.revealed[i];
+  render();
+}
+function startRQuiz() {
+  state.rquiz = { idx: 0, score: 0, picked: null, done: false };
+  render();
+}
+function rChoose(c) {
+  var rq = state.rquiz;
+  if (!rq || rq.picked !== null) return;
+  rq.picked = c;
+  if (c === currentLecture().quiz[rq.idx].a) rq.score++;
+  render();
+}
+function rNext() {
+  var rq = state.rquiz;
+  if (!rq) return;
+  if (rq.idx + 1 >= currentLecture().quiz.length) rq.done = true;
+  else { rq.idx++; rq.picked = null; }
+  render();
+}
+function rRestart() {
+  state.rquiz = { idx: 0, score: 0, picked: null, done: false };
+  render();
+}
 
 // ============================================================
 // RENDU
