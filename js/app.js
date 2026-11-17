@@ -466,7 +466,7 @@ function grammarHTML() {
   });
   h += '</div></div><div class="compcard"><div class="cp">Compteurs usuels</div>';
   COUNTERS.forEach(function (c) {
-    h += '<div class="exbox"><b>' + esc(c[0]) + '</b> <span class="muted">' + esc(c[1]) + '</span><div class="tr">' + esc(c[2]) + '</div></div>';
+    h += '<div class="exbox"><b>' + esc(c[0]) + '</b> ' + ttsBtn(c[2]) + ' <span class="muted">' + esc(c[1]) + '</span><div class="tr">' + esc(c[2]) + '</div></div>';
   });
   h += '</div></div>';
   return h;
