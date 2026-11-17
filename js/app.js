@@ -586,7 +586,8 @@ function srsHTML() {
   var h2 = '<div class="card">';
   h2 += '<div style="display:flex;justify-content:space-between" class="muted small"><span>Révision</span><span>Carte ' + (s.idx + 1) + ' / ' + s.ids.length + '</span></div>';
   h2 += '<div class="qbar"><i style="width:' + Math.round((s.idx / s.ids.length) * 100) + '%"></i></div>';
-  h2 += '<div class="qtext">' + esc(src.front(id)) + '</div>';
+  var front = src.front(id);
+  h2 += '<div class="qtext">' + esc(front) + ' ' + ttsBtn(front.replace(/（[^）]*）/g, "")) + '</div>';
   if (!s.shown) {
     h2 += '<div style="text-align:center"><button class="btn primary" onclick="srsShow()">Voir la réponse</button></div>';
   } else {
