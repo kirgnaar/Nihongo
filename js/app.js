@@ -494,7 +494,7 @@ function kanjiHTML() {
   h += '<input class="ksearch" value="' + esc(state.q) + '" oninput="kanjiQuery(this.value)" placeholder="Rechercher (sens ou kanji)…"/></div>';
   if (state.selKanji >= 0) {
     var k = KANJI[state.selKanji];
-    h += '<div class="selbox"><div class="serif" style="font-size:4.5rem;line-height:1">' + k.k + '</div><div style="flex:1;min-width:13rem">';
+    h += '<div class="selbox"><div class="serif" style="font-size:4.5rem;line-height:1">' + k.k + ttsBtn(k.k) + '</div><div style="flex:1;min-width:13rem">';
     h += '<div style="font-size:1.2rem;font-weight:600">' + esc(k.s) + '</div>';
     h += '<div style="margin-top:.5rem"><span class="pill">音 on\'yomi : ' + esc(k.on) + '</span> <span class="pill">訓 kun\'yomi : ' + esc(k.kun) + '</span></div>';
     h += '<p style="margin-top:.6rem">' + esc(k.m) + '</p>';
