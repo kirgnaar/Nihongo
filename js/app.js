@@ -60,7 +60,19 @@ function buildParticleDeck() {
     { q: "東京＿行きます。(la direction compte)", choices: ["へ", "に", "を", "が"], a: 0, e: "Direction → へ (lu « e »)." },
     { q: "私＿行きます。(moi aussi)", choices: ["も", "は", "が", "を"], a: 0, e: "« Aussi » → も." },
     { q: "先生＿本です。", choices: ["の", "を", "は", "で"], a: 0, e: "Possession → の (le livre du professeur)." }
-  ];
+  ].map(function (it) {
+    var correct = it.choices[it.a];
+    it.choices = shuffle(it.choices);
+    it.a = it.choices.indexOf(correct);
+    var w = {};
+    it.choices.forEach(function (c) {
+      if (c === correct) return;
+      var p = PARTICLES.filter(function (x) { return x.p === c; })[0];
+      if (p) w[c] = p.read + " (" + p.p + ") marque " + p.role + ".";
+    });
+    it.w = w;
+    return it;
+  });
 }
 
 var DECKS = [
