@@ -41,9 +41,11 @@ function buildVocabDeck() {
   var all = [];
   LESSONS.forEach(function (l) { all = all.concat(l.vocab); });
   return pick(all, 10).map(function (v) {
-    var wrong = pick(all.filter(function (x) { return x[2] !== v[2]; }), 3).map(function (x) { return x[2]; });
-    var choices = shuffle([v[2]].concat(wrong));
-    return { q: v[0] + "（" + v[1] + "）", choices: choices, a: choices.indexOf(v[2]), e: v[0] + " = " + v[2] };
+    var wrong = pick(all.filter(function (x) { return x[2] !== v[2]; }), 3);
+    var choices = shuffle([v[2]].concat(wrong.map(function (x) { return x[2]; })));
+    var w = {};
+    wrong.forEach(function (x) { w[x[2]] = "« " + x[2] + " » correspond à " + x[0] + "（" + x[1] + "）"; });
+    return { q: v[0] + "（" + v[1] + "）", choices: choices, a: choices.indexOf(v[2]), e: v[0] + " = " + v[2], w: w };" + v[1] + "）", choices: choices, a: choices.indexOf(v[2]), e: v[0] + " = " + v[2] };
   });
 }
 function buildParticleDeck() {
