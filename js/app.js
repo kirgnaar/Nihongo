@@ -99,7 +99,7 @@ function save(k, v) {
 
 var lessonsDone = load("nihongo-dojo-lessons", []);
 var scores = load("nihongo-dojo-scores", {});
-var state = { tab: "home", script: "h", romaji: true, selKana: -1, selKanji: -1, selP: 0, openLesson: 1, q: "", quiz: null };
+var state = { tab: "home", script: "h", romaji: true, selKana: -1, selKanji: -1, selP: 0, openLesson: 1, q: "", quiz: null, openLecture: null, revealed: {}, rquiz: null };
 function vocabPool(n) {
   var l = LESSONS[n - 1];
   var pool = l.vocab.slice();
@@ -156,7 +156,7 @@ function buildLQ3(l) {
 
 var lq = null;
 
-var TABS = [["home", "Accueil"], ["kana", "Kana"], ["lessons", "Leçons"], ["grammar", "Grammaire"], ["kanji", "Kanji"], ["quiz", "Quiz"], ["srs", "Révision"]];
+var TABS = [["home", "Accueil"], ["kana", "Kana"], ["lessons", "Leçons"], ["lectures", "Lecture"], ["grammar", "Grammaire"], ["kanji", "Kanji"], ["quiz", "Quiz"], ["srs", "Révision"]];
 
 // ============================================================
 // ACTIONS
@@ -236,6 +236,38 @@ function lqNext() {
 }
 function lqRestart() {
   lq.idx = 0; lq.score = 0; lq.picked = null; lq.done = false;
+  render();
+}
+function openLecture(id) {
+  state.openLecture = state.openLecture === id ? null : id;
+  state.revealed = {};
+  state.rquiz = null;
+  render();
+}
+function toggleLine(i) {
+  state.revealed[i] = !state.revealed[i];
+  render();
+}
+function startRQuiz() {
+  state.rquiz = { idx: 0, score: 0, picked: null, done: false };
+  render();
+}
+function rChoose(c) {
+  var rq = state.rquiz;
+  if (!rq || rq.picked !== null) return;
+  rq.picked = c;
+  if (c === currentLecture().quiz[rq.idx].a) rq.score++;
+  render();
+}
+function rNext() {
+  var rq = state.rquiz;
+  if (!rq) return;
+  if (rq.idx + 1 >= currentLecture().quiz.length) rq.done = true;
+  else { rq.idx++; rq.picked = null; }
+  render();
+}
+function rRestart() {
+  state.rquiz = { idx: 0, score: 0, picked: null, done: false };
   render();
 }
 
@@ -547,12 +579,79 @@ function quizHTML() {
   return h2c;
 }
 
+function currentLecture() {
+  return LECTURES.filter(function (t) { return t.id === state.openLecture; })[0];
+}
+
+function lectureQuizHTML(t) {
+  var rq = state.rquiz;
+  if (!rq) {
+    return '<div style="margin-top:1.5rem"><button class="btn primary" onclick="startRQuiz()">Commencer le quiz du texte</button></div>';
+  }
+  if (rq.done) {
+    var pct = Math.round((rq.score / t.quiz.length) * 100);
+    var hd = '<div class="card" style="text-align:center"><div class="serif" style="font-size:1.9rem">' + rq.score + ' <span style="font-size:1rem;color:#a8a29e">/ ' + t.quiz.length + '</span></div>';
+    hd += '<div class="muted small" style="margin-top:.25rem">' + pct + '% — ' + (pct >= 90 ? "素晴らしい ! Excellent." : pct >= 60 ? "よくできました ! Bien joué." : "もう一度 ! À retravailler.") + '</div>';
+    hd += '<button class="btn primary" style="margin-top:1rem" onclick="rRestart()">Recommencer</button></div>';
+    return hd;
+  }
+  var it = t.quiz[rq.idx];
+  var h = '<div class="muted small" style="margin-bottom:.4rem">Question ' + (rq.idx + 1) + ' / ' + t.quiz.length + ' · Score ' + rq.score + '</div>';
+  h += '<div class="qbar"><i style="width:' + Math.round(((rq.idx + (rq.picked !== null ? 1 : 0)) / t.quiz.length) * 100) + '%"></i></div>';
+  h += '<div class="qtext">' + esc(it.q) + '</div>';
+  h += '<div class="qchoice">' + it.choices.map(function (c, i) {
+    var cls = "qc";
+    if (rq.picked !== null) cls += i === it.a ? " right" : (i === rq.picked ? " wrong" : " dim");
+    return '<button class="' + cls + '" onclick="rChoose(' + i + ')">' + esc(c) + '</button>';
+  }).join("") + '</div>';
+  if (rq.picked !== null) {
+    h += '<div class="feedback"><div class="fbrow"><div>' + (rq.picked === it.a ? '<span class="ok">正解 ! </span>' : '<span class="ko">残念… </span>') + esc(it.e) + '</div>';
+    h += '<button class="btn dark" onclick="rNext()">' + (rq.idx + 1 >= t.quiz.length ? "Terminer" : "Suivant") + '</button></div></div>';
+  }
+  return h;
+}
+
+function lecturesHTML() {
+  var t = state.openLecture ? currentLecture() : null;
+  if (!t) {
+    var h = '<h2 class="serif">Lectures</h2>';
+    h += '<p class="muted small">18 textes progressifs : cliquez sur un texte pour le lire, révéler ligne par ligne la lecture en kana et la traduction, puis répondre au quiz.</p>';
+    var cats = [[1, "Un texte par leçon"], [2, "Textes gradués"], [3, "Textes type examen"]];
+    cats.forEach(function (c) {
+      h += '<h3 class="serif" style="margin-top:1.5rem">' + esc(c[1]) + '</h3>';
+      h += '<div class="grid g3" style="margin-top:.75rem">';
+      h += LECTURES.filter(function (x) { return x.cat === c[0]; }).map(function (x) {
+        return '<button class="deck" onclick="openLecture(\'' + x.id + '\')"><div class="dt">' + esc(x.title) + '</div><div class="dd"><span class="pill" style="margin:0">' + esc(x.level) + '</span> Leçons ' + x.lessons[0] + ' à ' + x.lessons[x.lessons.length - 1] + '</div></button>';
+      }).join("");
+      h += '</div>';
+    });
+    return h;
+  }
+  var h2 = '<button class="btn" onclick="openLecture(\'' + t.id + '\')">← Retour aux textes</button>';
+  h2 += '<h2 class="serif" style="margin-top:.75rem">' + esc(t.title) + '</h2>';
+  h2 += '<div class="note" style="margin-top:.5rem"><b>Conseil :</b> ' + esc(t.advice) + '</div>';
+  t.lines.forEach(function (ln, i) {
+    var shown = !!state.revealed[i];
+    h2 += '<div class="card" style="margin-top:.75rem">';
+    h2 += '<div class="serif" style="font-size:1.45rem;line-height:1.6">' + esc(ln[0]) + ' ' + ttsBtn(ln[0]) + '</div>';
+    h2 += '<button class="btn" style="margin-top:.5rem;padding:.15rem .6rem;font-size:.8rem" onclick="toggleLine(' + i + ')">' + (shown ? "Masquer la lecture et la traduction" : "Voir la lecture et la traduction") + '</button>';
+    if (shown) {
+      h2 += '<div class="rd" style="margin-top:.5rem">' + esc(ln[1]) + '</div>';
+      h2 += '<div class="fr" style="margin-top:.25rem">— ' + esc(ln[2]) + '</div>';
+    }
+    h2 += '</div>';
+  });
+  h2 += '<h3 class="serif" style="margin-top:1.5rem">Quiz du texte</h3>' + lectureQuizHTML(t);
+  return h2;
+}
+
 function render() {
   document.getElementById("nav").innerHTML = navHTML();
   var el = document.getElementById("app");
   if (state.tab === "home") el.innerHTML = homeHTML();
   else if (state.tab === "kana") el.innerHTML = kanaHTML();
   else if (state.tab === "lessons") el.innerHTML = lessonsHTML();
+  else if (state.tab === "lectures") el.innerHTML = lecturesHTML();
   else if (state.tab === "grammar") el.innerHTML = grammarHTML();
   else if (state.tab === "kanji") el.innerHTML = kanjiHTML();
   else if (state.tab === "quiz") el.innerHTML = quizHTML();
