@@ -134,27 +134,21 @@ function buildLQ2(l) {
 }
 
 function buildLQ3(l) {
-  var pool = vocabPool(l.n);
   var cands = [];
-  l.grammar.forEach(function (g) { g.ex.forEach(function (x) { cands.push(x[0]); }); });
-  l.dialog.forEach(function (d) { cands.push(d[1]); });
-  var qs = [], used = [];
-  cands.forEach(function (s) {
-    if (qs.length >= 3) return;
-    l.vocab.forEach(function (v) {
-      if (qs.length >= 3 || used.indexOf(v[0]) >= 0) return;
-      if (s.indexOf(v[0]) >= 0) {
-        used.push(v[0]);
-        var wrong = pick(pool.filter(function (x) { return x[0] !== v[0]; }), 3);
-        var choices = shuffle([v[0]].concat(wrong.map(function (x) { return x[0]; })));
-        var w = {};
-        wrong.forEach(function (x) { w[x[0]] = "« " + x[0] + " » signifie " + x[2]; });
-        qs.push({ q: s.split(v[0]).join("＿"), choices: choices, a: choices.indexOf(v[0]), e: s, w: w });
-      }
-    });
+  l.grammar.forEach(function (g) { g.ex.forEach(function (x) { cands.push([x[0], x[1]]); }); });
+  l.dialog.forEach(function (d) { cands.push([d[1], d[2]]); });
+  var uniq = [];
+  cands.forEach(function (x) {
+    if (x[1] && uniq.every(function (u) { return u[0] !== x[0] && u[1] !== x[1]; })) uniq.push(x);
   });
-  if (qs.length < 3) return buildLQ1(l);
-  return qs;
+  if (uniq.length < 4) return buildLQ1(l);
+  return pick(uniq, 3).map(function (pair) {
+    var wrong = pick(uniq.filter(function (x) { return x[0] !== pair[0] && x[1] !== pair[1]; }), 3);
+    var choices = shuffle([pair[1]].concat(wrong.map(function (x) { return x[1]; })));
+    var w = {};
+    wrong.forEach(function (x) { w[x[1]] = "« " + x[1] + " » est la traduction de " + "「" + x[0] + "」"; });
+    return { q: "Que signifie : 「" + pair[0] + "」", choices: choices, a: choices.indexOf(pair[1]), e: pair[0] + " = " + pair[1], w: w };
+  });
 }
 
 var lq = null;
@@ -341,7 +335,8 @@ function lessonQuizHTML(n) {
     var pct = Math.round((lq.score / lq.items.length) * 100);
     h += '<div class="card" style="text-align:center"><div class="serif" style="font-size:1.9rem">' + lq.score + ' <span style="font-size:1rem;color:#a8a29e">/ ' + lq.items.length + '</span></div>';
     h += '<div class="muted small" style="margin-top:.25rem">' + pct + '% — ' + (pct >= 90 ? "素晴らしい ! Excellent." : pct >= 60 ? "よくできました ! Bien joué." : "もう一度 ! À retravailler.") + '</div>';
-    h += '<button class="btn primary" style="margin-top:1rem" onclick="lqRestart()">Recommencer</button></div>';
+    h += '<button class="btn primary" style="margin-top:1rem" onclick="lqRestart()">Recommencer</button>';
+    h += '<button class="btn" style="margin:1rem 0 0 .5rem" onclick="lq = null; render()">Autre niveau</button></div>';
     return h;
   }
   var it = lq.items[lq.idx];
@@ -355,7 +350,8 @@ function lessonQuizHTML(n) {
     return '<button class="' + cls + '" onclick="lqChoose(' + i + ')">' + esc(c) + '</button>';
   }).join("") + '</div>';
   if (lq.picked !== null) {
-    var wrongLine = lq.picked !== it.a ? "Votre réponse : " + esc(it.choices[lq.picked]) + " — " + esc((it.w && it.w[it.choices[lq.picked]]) || "") + "<br>" : "";
+    var wl = lq.picked !== it.a ? (it.w ? it.w[it.choices[lq.picked]] : null) : null;
+    var wrongLine = lq.picked !== it.a ? "Votre réponse : " + esc(it.choices[lq.picked]) + (wl ? " — " + esc(wl) : "") + "<br>" : "";
     h += '<div class="feedback"><div class="fbrow"><div>' + wrongLine + (lq.picked === it.a ? '<span class="ok">正解 ! </span>' : '<span class="ko">残念… </span>') + esc(it.e) + '</div>';
     h += '<button class="btn dark" onclick="lqNext()">' + (lq.idx + 1 >= lq.items.length ? "Terminer" : "Suivant") + '</button></div></div>';
   }
