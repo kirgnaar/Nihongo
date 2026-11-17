@@ -30,9 +30,11 @@ function buildKanaDeck(kana) {
 }
 function buildKanjiDeck() {
   return pick(KANJI, 10).map(function (k) {
-    var wrong = pick(KANJI.filter(function (x) { return x.s !== k.s; }), 3).map(function (x) { return x.s; });
-    var choices = shuffle([k.s].concat(wrong));
-    return { q: k.k, choices: choices, a: choices.indexOf(k.s), e: k.k + " = " + k.s + ". " + k.m };
+    var wrong = pick(KANJI.filter(function (x) { return x.s !== k.s; }), 3);
+    var choices = shuffle([k.s].concat(wrong.map(function (x) { return x.s; })));
+    var w = {};
+    wrong.forEach(function (x) { w[x.s] = "« " + x.s + " » est le sens de " + x.k; });
+    return { q: k.k, choices: choices, a: choices.indexOf(k.s), e: k.k + " = " + k.s + ". " + k.m, w: w };
   });
 }
 function buildVocabDeck() {
