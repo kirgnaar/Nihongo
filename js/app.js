@@ -290,7 +290,7 @@ function kanaHTML() {
 
   if (state.selKana >= 0) {
     var s = data[state.selKana];
-    h += '<div class="selbox"><div class="bigkana serif">' + s.k + '</div><div><div style="font-size:1.05rem;font-weight:600">Rōmaji : ' + esc(s.r) + '</div><div class="muted" style="margin-top:.25rem">' + esc(s.m) + '</div></div></div>';
+    h += '<div class="selbox"><div class="bigkana serif">' + s.k + ttsBtn(s.k) + '</div><div><div style="font-size:1.05rem;font-weight:600">Rōmaji : ' + esc(s.r) + '</div><div class="muted" style="margin-top:.25rem">' + esc(s.m) + '</div></div></div>';
   }
 
   h += '<div class="kana-grid">';
