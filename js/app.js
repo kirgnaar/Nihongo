@@ -14,6 +14,9 @@ function shuffle(a) {
   return a;
 }
 function pick(a, n) { return shuffle(a).slice(0, n); }
+function ttsBtn(t) {
+  return '<button class="btn" style="padding:.2rem .6rem;font-size:.85rem;vertical-align:middle" onclick="TTS.speak(\'' + esc(String(t).replace(/'/g, "\\'")) + '\')">🔊</button>';
+}
 
 // ============================================================
 // DECKS DE QUIZ
@@ -287,7 +290,7 @@ function kanaHTML() {
 
   if (state.selKana >= 0) {
     var s = data[state.selKana];
-    h += '<div class="selbox"><div class="bigkana serif">' + s.k + '</div><div><div style="font-size:1.05rem;font-weight:600">Rōmaji : ' + esc(s.r) + '</div><div class="muted" style="margin-top:.25rem">' + esc(s.m) + '</div></div></div>';
+    h += '<div class="selbox"><div class="bigkana serif">' + s.k + ttsBtn(s.k) + '</div><div><div style="font-size:1.05rem;font-weight:600">Rōmaji : ' + esc(s.r) + '</div><div class="muted" style="margin-top:.25rem">' + esc(s.m) + '</div></div></div>';
   }
 
   h += '<div class="kana-grid">';
@@ -370,19 +373,19 @@ function lessonsHTML() {
       h += '<div class="lbody">';
       h += '<h3 class="serif" style="margin:0 0 .5rem">Dialogue</h3><div class="dialog">';
       l.dialog.forEach(function (d) {
-        h += '<div style="margin-top:.4rem"><span class="who">' + esc(d[0]) + '</span>' + esc(d[1]) + ' <span class="fr">— ' + esc(d[2]) + '</span></div>';
+        h += '<div style="margin-top:.4rem"><span class="who">' + esc(d[0]) + '</span>' + esc(d[1]) + ' ' + ttsBtn(d[1]) + ' <span class="fr">— ' + esc(d[2]) + '</span></div>';
       });
       h += '</div>';
       h += '<h3 class="serif">Vocabulaire</h3><div class="vocab">';
       l.vocab.forEach(function (v) {
-        h += '<div class="vitem"><span class="jp">' + esc(v[0]) + '</span><span class="rd">' + esc(v[1]) + '</span><div class="fr">' + esc(v[2]) + '</div></div>';
+        h += '<div class="vitem"><span class="jp">' + esc(v[0]) + ' ' + ttsBtn(v[0]) + '</span><span class="rd">' + esc(v[1]) + '</span><div class="fr">' + esc(v[2]) + '</div></div>';
       });
       h += '</div>';
       h += '<h3 class="serif">Grammaire</h3>';
       l.grammar.forEach(function (g) {
         h += '<div class="gpoint"><div class="gt">' + esc(g.t) + '</div><p>' + esc(g.d) + '</p>';
         g.ex.forEach(function (x) {
-          h += '<div class="gx">' + esc(x[0]) + ' <span class="tr">— ' + esc(x[1]) + '</span></div>';
+          h += '<div class="gx">' + esc(x[0]) + ' ' + ttsBtn(x[0]) + ' <span class="tr">— ' + esc(x[1]) + '</span></div>';
         });
         h += '</div>';
       });
@@ -491,11 +494,11 @@ function kanjiHTML() {
   h += '<input class="ksearch" value="' + esc(state.q) + '" oninput="kanjiQuery(this.value)" placeholder="Rechercher (sens ou kanji)…"/></div>';
   if (state.selKanji >= 0) {
     var k = KANJI[state.selKanji];
-    h += '<div class="selbox"><div class="serif" style="font-size:4.5rem;line-height:1">' + k.k + '</div><div style="flex:1;min-width:13rem">';
+    h += '<div class="selbox"><div class="serif" style="font-size:4.5rem;line-height:1">' + k.k + ttsBtn(k.k) + '</div><div style="flex:1;min-width:13rem">';
     h += '<div style="font-size:1.2rem;font-weight:600">' + esc(k.s) + '</div>';
     h += '<div style="margin-top:.5rem"><span class="pill">音 on\'yomi : ' + esc(k.on) + '</span> <span class="pill">訓 kun\'yomi : ' + esc(k.kun) + '</span></div>';
     h += '<p style="margin-top:.6rem">' + esc(k.m) + '</p>';
-    h += '<div class="exbox" style="background:#fff"><b>' + esc(k.ex[0]) + '</b> <span class="muted small">(' + esc(k.ex[1]) + ')</span> <span class="tr">— ' + esc(k.ex[2]) + '</span></div></div></div>';
+    h += '<div class="exbox" style="background:#fff"><b>' + esc(k.ex[0]) + '</b> <span class="muted small">(' + esc(k.ex[1]) + ')</span> <span class="tr">— ' + esc(k.ex[2]) + '</span> ' + ttsBtn(k.ex[0]) + '</div></div></div>';
   }
   h += '<div class="kanji-grid" id="kgrid">' + kanjiGridHTML() + '</div>';
   h += '<p class="muted small" style="margin-top:1.25rem">Astuce : les lectures on\'yomi servent aux mots composés d\'origine chinoise (日本, 学校) ; les lectures kun\'yomi aux mots japonais seuls (山, 川).</p>';
@@ -526,7 +529,10 @@ function quizHTML() {
   var it = qz.items[qz.idx];
   h2c += '<div class="card"><div style="display:flex;justify-content:space-between" class="muted small"><span>' + esc(qz.title) + '</span><span>Question ' + (qz.idx + 1) + ' / ' + qz.items.length + ' · Score ' + qz.score + '</span></div>';
   h2c += '<div class="qbar"><i style="width:' + Math.round(((qz.idx + (qz.picked !== null ? 1 : 0)) / qz.items.length) * 100) + '%"></i></div>';
-  h2c += '<div class="qtext">' + esc(it.q) + '</div>';
+  var speakQ = null;
+  if (qz.id === "vocab") speakQ = it.q.replace(/（[^）]*）/g, "");
+  else if (qz.id !== "particles") speakQ = it.q;
+  h2c += '<div class="qtext">' + esc(it.q) + (speakQ !== null ? ' ' + ttsBtn(speakQ) : '') + '</div>';
   h2c += '<div class="qchoice">' + it.choices.map(function (c, i) {
     var cls = "qc";
     if (qz.picked !== null) cls += i === it.a ? " right" : (i === qz.picked ? " wrong" : " dim");
@@ -580,7 +586,8 @@ function srsHTML() {
   var h2 = '<div class="card">';
   h2 += '<div style="display:flex;justify-content:space-between" class="muted small"><span>Révision</span><span>Carte ' + (s.idx + 1) + ' / ' + s.ids.length + '</span></div>';
   h2 += '<div class="qbar"><i style="width:' + Math.round((s.idx / s.ids.length) * 100) + '%"></i></div>';
-  h2 += '<div class="qtext">' + esc(src.front(id)) + '</div>';
+  var front = src.front(id);
+  h2 += '<div class="qtext">' + esc(front) + ' ' + ttsBtn(front.replace(/（[^）]*）/g, "")) + '</div>';
   if (!s.shown) {
     h2 += '<div style="text-align:center"><button class="btn primary" onclick="srsShow()">Voir la réponse</button></div>';
   } else {
