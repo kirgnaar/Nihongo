@@ -373,7 +373,7 @@ function lessonsHTML() {
       h += '<div class="lbody">';
       h += '<h3 class="serif" style="margin:0 0 .5rem">Dialogue</h3><div class="dialog">';
       l.dialog.forEach(function (d) {
-        h += '<div style="margin-top:.4rem"><span class="who">' + esc(d[0]) + '</span>' + esc(d[1]) + ' <span class="fr">— ' + esc(d[2]) + '</span></div>';
+        h += '<div style="margin-top:.4rem"><span class="who">' + esc(d[0]) + '</span>' + esc(d[1]) + ' ' + ttsBtn(d[1]) + ' <span class="fr">— ' + esc(d[2]) + '</span></div>';
       });
       h += '</div>';
       h += '<h3 class="serif">Vocabulaire</h3><div class="vocab">';
