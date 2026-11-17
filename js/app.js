@@ -529,7 +529,10 @@ function quizHTML() {
   var it = qz.items[qz.idx];
   h2c += '<div class="card"><div style="display:flex;justify-content:space-between" class="muted small"><span>' + esc(qz.title) + '</span><span>Question ' + (qz.idx + 1) + ' / ' + qz.items.length + ' · Score ' + qz.score + '</span></div>';
   h2c += '<div class="qbar"><i style="width:' + Math.round(((qz.idx + (qz.picked !== null ? 1 : 0)) / qz.items.length) * 100) + '%"></i></div>';
-  h2c += '<div class="qtext">' + esc(it.q) + '</div>';
+  var speakQ = null;
+  if (qz.id === "vocab") speakQ = it.q.replace(/（[^）]*）/g, "");
+  else if (qz.id !== "particles") speakQ = it.q;
+  h2c += '<div class="qtext">' + esc(it.q) + (speakQ !== null ? ' ' + ttsBtn(speakQ) : '') + '</div>';
   h2c += '<div class="qchoice">' + it.choices.map(function (c, i) {
     var cls = "qc";
     if (qz.picked !== null) cls += i === it.a ? " right" : (i === qz.picked ? " wrong" : " dim");
