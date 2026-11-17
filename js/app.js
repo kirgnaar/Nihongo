@@ -307,7 +307,7 @@ function kanaHTML() {
   DAKU.forEach(function (d) {
     h += '<div class="card"><span class="pill" style="margin:0 0 .5rem">' + esc(d.label) + '</span><div class="rowf" style="margin-top:.25rem">';
     for (var i = 0; i < 5; i++) {
-      h += '<div style="width:3.6rem;text-align:center;background:#f5f5f4;border:1px solid #f0efee;border-radius:.6rem;padding:.4rem 0"><div class="serif" style="font-size:1.15rem">' + (state.script === "h" ? d.h[i] : d.k[i]) + '</div><div style="font-size:.6rem;color:#78716c">' + esc(d.r[i]) + '</div></div>';
+      h += '<div style="width:3.6rem;text-align:center;background:#f5f5f4;border:1px solid #f0efee;border-radius:.6rem;padding:.4rem 0"><div class="serif" style="font-size:1.15rem">' + (state.script === "h" ? d.h[i] : d.k[i]) + '</div>' + ttsBtn(state.script === "h" ? d.h[i] : d.k[i]) + '<div style="font-size:.6rem;color:#78716c">' + esc(d.r[i]) + '</div></div>';
     }
     h += '</div><div class="muted small" style="margin-top:.5rem">' + esc(d.note) + '</div></div>';
   });
