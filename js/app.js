@@ -438,8 +438,8 @@ function grammarHTML() {
   h += '<h2 class="serif" style="margin-top:2.5rem">Conjugaison — forme polie</h2>';
   h += '<table><thead><tr><th>Verbe (groupe)</th><th>Présent</th><th>Négatif</th><th>Passé</th><th>Passé négatif</th><th>Forme て</th></tr></thead><tbody>';
   VERB_TABLE.forEach(function (v) {
-    h += '<tr><td>' + esc(v.verb) + ' <span class="muted small">G' + esc(v.group) + '</span></td>';
-    v.forms.forEach(function (f) { h += '<td>' + esc(f) + '</td>'; });
+    h += '<tr><td>' + esc(v.verb) + ' ' + ttsBtn(v.verb.split(" — ")[0]) + ' <span class="muted small">G' + esc(v.group) + '</span></td>';
+    v.forms.forEach(function (f) { h += '<td>' + esc(f) + ' ' + ttsBtn(f) + '</td>'; });
     h += '</tr>';
   });
   h += '</tbody></table>';
