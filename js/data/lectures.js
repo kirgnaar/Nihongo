@@ -1,7 +1,7 @@
 // Données P5 : textes de lecture.
 // Rédaction : examinateur en chef. Règle stricte : uniquement du vocabulaire
 // et de la grammaire couverts jusqu'à la leçon indiquée (champ lessons).
-// cat 1 : un texte court par leçon ; cat 2 : textes gradués ; cat 3 : textes longs type examen ; cat 4 : textes longs (annonce, lettre, extrait de livre).
+// cat 1 : un texte court par leçon ; cat 2 : textes gradués ; cat 3 : textes type examen ; cat 4 : textes longs en paragraphes (annonce, lettre, livre), de 5 à 30 lignes.
 // Format : { id, cat, level, lessons, title, advice, lines: [[jp, lecture kana, français]], quiz: [{q, choices, a, e}] }.
 const LECTURES = [
   {
@@ -424,13 +424,10 @@ const LECTURES = [
     title: "「公園のニュース」",
     advice: "Une annonce de news : lisez d'abord le texte en entier pour repérer quoi, où, quand et combien, puis revenez ligne par ligne. Les chiffres et les heures portent l'information.",
     lines: [
-      ["東京の近くに大きい公園があります。公園に猫がたくさんいます。", "とうきょうのちかくにおおきいこうえんがあります。こうえんにねこがたくさんいます。", "Près de Tokyo, il y a un grand parc. Au parc, il y a beaucoup de chats."],
-      ["今週の土曜日、公園で日本の映画を見ることができます。", "こんしゅうのどようび、こうえんでにほんのえいがをみることができます。", "Ce samedi, on peut voir un film japonais dans le parc."],
-      ["映画は6時から8時半までです。見る人は一人300円です。", "えいがはろくじからはちじはんまでです。みるひとはひとりさんびゃくえんです。", "Le film passe de 18h à 20h30. Le prix est de 300 yens par personne."],
-      ["公園の近くにお寺もあります。お寺は古くて、有名です。", "こうえんのちかくにおてらもあります。おてらはふるくて、ゆうめいです。", "Près du parc, il y a aussi un temple. Le temple est vieux et célèbre."],
-      ["カフェもあります。コーヒーは200円です。映画の後、カフェでコーヒーを飲むことができます。", "かふぇもあります。こーひーはにひゃくえんです。えいがのあと、かふぇでこーひーをのむことができます。", "Il y a aussi un café. Le café coûte 200 yens. Après le film, on peut prendre un café."],
-      ["公園は静かで、きれいです。", "こうえんはしずかで、きれいです。", "Le parc est calme et joli."],
-      ["日曜日、子供がたくさん来ます。猫も子供も日曜日が好きです。", "にちようび、こどもがたくさんきます。ねこもこどももにちようびがすきです。", "Le dimanche, beaucoup d'enfants viennent. Chats et enfants aiment le dimanche."],
+      ["東京の近くに大きい公園があります。公園に猫がたくさんいます。公園の近くに古いお寺もあります。お寺は有名です。", "とうきょうのちかくにおおきいこうえんがあります。こうえんにねこがたくさんいます。こうえんのちかくにふるいおてらもあります。おてらはゆうめいです。", "Près de Tokyo, il y a un grand parc. Au parc, il y a beaucoup de chats. Près du parc, il y a aussi un vieux temple. Le temple est célèbre."],
+      ["今週の土曜日、公園で日本の映画を見ることができます。映画は6時から8時半までです。見る人は一人300円です。", "こんしゅうのどようび、こうえんでにほんのえいがをみることができます。えいがはろくじからはちじはんまでです。みるひとはひとりさんびゃくえんです。", "Ce samedi, on peut voir un film japonais dans le parc. Le film passe de 18h à 20h30. Le prix est de 300 yens par personne."],
+      ["公園は静かで、きれいです。映画の後、近くのカフェでコーヒーを飲むことができます。コーヒーは200円です。", "こうえんはしずかで、きれいです。えいがのあと、ちかくのかふぇでこーひーをのむことができます。こーひーはにひゃくえんです。", "Le parc est calme et joli. Après le film, on peut boire un café au café voisin. Le café coûte 200 yens."],
+      ["日曜日、子供がたくさん来ます。子供は猫が好きです。猫も子供も日曜日が好きです。", "にちようび、こどもがたくさんきます。こどもはねこがすきです。ねこもこどももにちようびがすきです。", "Le dimanche, beaucoup d'enfants viennent. Les enfants aiment les chats. Chats et enfants aiment le dimanche."],
       ["土曜日、公園で会いましょう。", "どようび、こうえんであいましょう。", "Samedi, retrouvons-nous au parc."]
     ],
     quiz: [
@@ -449,13 +446,13 @@ const LECTURES = [
     lines: [
       ["フランスのアンナさんへ。リナです。", "ふらんすのアンナさんへ。リナです。", "À Anna, en France. C'est Lina."],
       ["私は去年の4月に日本へ来ました。今、東京の近くに住んでいます。", "わたしはきょねんのしがつににほんへきました。いま、とうきょうのちかくにすんでいます。", "Je suis venue au Japon en avril de l'année dernière. J'habite maintenant près de Tokyo."],
-      ["毎朝7時に起きます。朝ご飯はパンです。それから、コーヒーを飲みます。", "まいあさしちじにおきます。あさごはんはぱんです。それから、こーひーをのみます。", "Je me lève chaque matin à 7h. Le petit-déjeuner, c'est du pain. Ensuite, je bois un café."],
-      ["学校の日本語の授業は月曜日と木曜日です。9時から10時半までです。", "がっこうのにほんごのじゅぎょうはげつようびともくようびです。くじからじゅうじはんまでです。", "Mes cours de japonais à l'école ont lieu le lundi et le jeudi, de 9h à 10h30."],
-      ["夜は漢字を書いて、日本語を勉強します。10時に寝ます。", "よるはかんじをかいて、にほんごをべんきょうします。じゅうじにねます。", "Le soir, j'écris des kanji et j'étudie le japonais. Je me couche à 22h."],
+      ["毎朝7時に起きます。朝ご飯はパンです。それから、コーヒーを飲んで、学校へ行きます。", "まいあさしちじにおきます。あさごはんはぱんです。それから、こーひーをのんで、がっこうへいきます。", "Je me lève chaque matin à 7h. Le petit-déjeuner, c'est du pain. Ensuite, je bois un café et je vais à l'école."],
+      ["学校の日本語の授業は月曜日と木曜日です。9時から10時半までです。漢字はまだ難しいですが、夜、漢字を書いて、日本語を勉強します。", "がっこうのにほんごのじゅぎょうはげつようびともくようびです。くじからじゅうじはんまでです。かんじはまだむずかしいですが、よる、かんじをかいて、にほんごをべんきょうします。", "Mes cours de japonais à l'école ont lieu le lundi et le jeudi, de 9h à 10h30. Les kanji sont encore difficiles, mais le soir, j'écris des kanji et j'étudie le japonais."],
+      ["学校の図書館で働きます。図書館は静かで、本がたくさんあります。", "がっこうのとしょかんではたらきます。としょかんはしずかで、ほんがたくさんあります。", "Je travaille à la bibliothèque de l'école. La bibliothèque est calme et il y a beaucoup de livres."],
       ["土曜日、友達とカフェへ行きます。コーヒーを飲んでから、一緒に本を読みます。", "どようび、ともだちとかふぇへいきます。こーひーをのんでから、いっしょにほんをよみます。", "Le samedi, je vais au café avec une amie. Après avoir bu un café, nous lisons un livre ensemble."],
       ["日曜日は何もしません。", "にちようびはなにもしません。", "Le dimanche, je ne fais rien."],
-      ["日本の食べ物が好きですが、来年、フランスへ帰ります。", "にほんのたべものがすきですが、らいねん、ふらんすへかえります。", "J'aime la nourriture japonaise, mais l'année prochaine, je rentrerai en France."],
-      ["アンナさん、来年、会いましょう。楽しみです。", "アンナさん、らいねん、あいましょう。たのしみです。", "Anna, retrouvons-nous l'année prochaine. J'ai hâte."]
+      ["10時に寝ます。日本の食べ物が好きですが、来年、フランスへ帰ります。", "じゅうじにねます。にほんのたべものがすきですが、らいねん、ふらんすへかえります。", "Je me couche à 22h. J'aime la nourriture japonaise, mais l'année prochaine, je rentrerai en France."],
+      ["アンナさん、来年、会いましょう。楽しみです。東京から、リナ。", "アンナさん、らいねん、あいましょう。たのしみです。とうきょうから、リナ。", "Anna, retrouvons-nous l'année prochaine. J'ai hâte. De Tokyo, Lina."]
     ],
     quiz: [
       { q: "Quand Lina est-elle venue au Japon ?", choices: ["Cette année, en avril", "L'année dernière, en avril", "Il y a dix ans", "Le mois prochain"], a: 1, e: "去年の4月に日本へ来ました : 去年 = l'année dernière." },
@@ -469,20 +466,107 @@ const LECTURES = [
     level: "Leçon 10",
     lessons: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     title: "「田中さんの猫」",
-    advice: "Un extrait adapté de livre : suivez qui fait quoi et à quel moment (毎朝, 週末, 来年). Lisez d'abord pour l'histoire, puis ligne par ligne pour la langue.",
+    advice: "Un extrait adapté de livre : suivez qui fait quoi et à quel moment (毎朝, 週末, 夜, 来年). Lisez d'abord pour l'histoire, puis ligne par ligne pour la langue.",
     lines: [
-      ["田中さんの家に猫がいます。猫は小さいです。", "たなかさんのいえにねこがいます。ねこはちいさいです。", "Chez Monsieur Tanaka, il y a un chat. Le chat est petit."],
-      ["猫は去年、京都から来ました。", "ねこはきょねん、きょうとからきました。", "L'année dernière, le chat est arrivé de Kyoto."],
-      ["毎朝、田中さんは新聞を読みます。猫は机の上に来ます。", "まいあさ、たなかさんはしんぶんをよみます。ねこはつくえのうえにきます。", "Chaque matin, Tanaka lit le journal. Le chat vient sur le bureau."],
-      ["猫は新聞の上で寝ます。田中さんは猫と一緒に新聞を読みます。", "ねこはしんぶんのうえでねます。たなかさんはねこといっしょにしんぶんをよみます。", "Le chat dort sur le journal. Tanaka lit le journal avec son chat."],
+      ["田中さんの家に猫がいます。猫は小さいです。田中さんは猫が好きです。", "たなかさんのいえにねこがいます。ねこはちいさいです。たなかさんはねこがすきです。", "Chez Monsieur Tanaka, il y a un chat. Le chat est petit. Tanaka aime son chat."],
+      ["猫は去年、京都から来ました。京都にはお寺がたくさんあります。", "ねこはきょねん、きょうとからきました。きょうとにはおてらがたくさんあります。", "L'année dernière, le chat est arrivé de Kyoto. À Kyoto, il y a beaucoup de temples."],
+      ["毎朝、田中さんは6時に起きます。新聞を読みます。", "まいあさ、たなかさんはろくじにおきます。しんぶんをよみます。", "Chaque matin, Tanaka se lève à 6h. Il lit le journal."],
+      ["猫は机の上に来ます。新聞の上で寝ます。田中さんは猫と一緒に新聞を読みます。", "ねこはつくえのうえにきます。しんぶんのうえでねます。たなかさんはねこといっしょにしんぶんをよみます。", "Le chat vient sur le bureau. Il dort sur le journal. Tanaka lit le journal avec son chat."],
+      ["8時に朝ご飯を食べます。猫も食べます。", "はちじにあさごはんをたべます。ねこもたべます。", "À 8h, il prend le petit-déjeuner. Le chat mange aussi."],
+      ["週末、田中さんと猫は公園へ行きます。公園は静かで、きれいです。", "しゅうまつ、たなかさんとねこはこうえんへいきます。こうえんはしずかで、きれいです。", "Le week-end, Tanaka et le chat vont au parc. Le parc est calme et joli."],
+      ["公園に犬もいます。田中さんの猫は犬が好きです。", "こうえんにいぬもいます。たなかさんのねこはいぬがすきです。", "Au parc, il y a aussi des chiens. Le chat de Tanaka aime les chiens."],
+      ["公園に子供も来ます。子供は猫が好きです。猫も子供が好きです。", "こうえんにこどももきます。こどもはねこがすきです。ねこもこどもがすきです。", "Des enfants viennent aussi au parc. Les enfants aiment le chat. Le chat aime les enfants."],
+      ["映画も見ます。猫と一緒に見ます。猫は映画が好きです。", "えいがもみます。ねこといっしょにみます。ねこはえいががすきです。", "Ils regardent aussi des films. Le chat les regarde avec lui. Le chat aime les films."],
+      ["夜、田中さんは本を読みます。猫は机の上で寝ます。", "よる、たなかさんはほんをよみます。ねこはつくえのうえでねます。", "Le soir, Tanaka lit un livre. Le chat dort sur le bureau."],
       ["猫は10時に田中さんと寝ます。", "ねこはじゅうじにたなかさんとねます。", "À 22h, le chat se couche avec Tanaka."],
-      ["週末、田中さんは映画を見ます。猫も一緒に見ます。猫は映画が好きです。", "しゅうまつ、たなかさんはえいがをみます。ねこもいっしょにみます。ねこはえいががすきです。", "Le week-end, Tanaka regarde des films. Le chat les regarde aussi. Le chat aime les films."],
-      ["来年、田中さんはフランスへ行きます。猫も行きたいです。", "らいねん、たなかさんはふらんすへいきます。ねこもいきたいです。", "L'année prochaine, Tanaka ira en France. Le chat, lui, voudrait aussi y aller."]
+      ["来年、田中さんはフランスへ行きます。", "らいねん、たなかさんはふらんすへいきます。", "L'année prochaine, Tanaka ira en France."],
+      ["猫もフランスへ行きたいです。猫はまだ日本がいちばん好きですが、フランスの食べ物も食べたいです。", "ねこもふらんすへいきたいです。ねこはまだにほんがいちばんすきですが、ふらんすのたべものもたべたいです。", "Le chat voudrait aussi aller en France. Il aime encore le Japon plus que tout, mais il a aussi envie de goûter la nourriture française."],
+      ["田中さんも猫も、来年が楽しみです。", "たなかさんもねこも、らいねんがたのしみです。", "Tanaka et son chat attendent l'année prochaine avec impatience."]
     ],
     quiz: [
       { q: "D'où vient le chat ?", choices: ["De Tokyo", "De France", "De Kyoto", "De la gare"], a: 2, e: "京都から来ました : から marque le point de départ, comme dans から〜まで pour le temps." },
-      { q: "Où dort le chat ?", choices: ["Sur le canapé", "Sous la table", "Dans le parc", "Sur le journal"], a: 3, e: "猫は新聞の上で寝ます : 上で = sur, au-dessus." },
-      { q: "L'année prochaine, le chat :", choices: ["ira en France avec Tanaka", "voudrait aussi y aller", "restera à la maison", "arrêtera de dormir"], a: 1, e: "猫も行きたいです : 〜たいです = vouloir faire. Le texte ne dit pas qu'il ira." }
+      { q: "Où dort le chat le matin ?", choices: ["Sur le canapé", "Sous la table", "Dans le parc", "Sur le journal"], a: 3, e: "新聞の上で寝ます : 上で = sur, au-dessus." },
+      { q: "L'année prochaine, le chat :", choices: ["ira en France avec Tanaka", "voudrait aussi y aller", "restera à la maison", "arrêtera de dormir"], a: 1, e: "猫もフランスへ行きたいです : 〜たいです = vouloir faire. Le texte ne dit pas qu'il ira." }
+    ]
+  },
+  {
+    id: "a4",
+    cat: 4,
+    level: "Leçon 10",
+    lessons: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    title: "「京都の週末」",
+    advice: "Un article de voyage : suivez le programme heure par heure (6時, 9時, 12時, 4時, 6時) et les prix (9 000円, 200円, 500円, 300円). Chaque heure ouvre un lieu nouveau.",
+    lines: [
+      ["来週の週末、京都へ行きましょう。京都にはお寺がたくさんあります。古くて、有名なお寺です。", "らいしゅうのしゅうまつ、きょうとへいきましょう。きょうとにはおてらがたくさんあります。ふるくて、ゆうめいなおてらです。", "Le week-end prochain, allons à Kyoto. À Kyoto, il y a beaucoup de temples. Des temples anciens et célèbres."],
+      ["土曜日、朝6時に東京の駅で会いましょう。電車で京都へ行きます。", "どようび、あさろくじにとうきょうのえきであいましょう。でんしゃできょうとへいきます。", "Samedi, retrouvons-nous à 6h du matin à la gare de Tokyo. Nous irons à Kyoto en train."],
+      ["電車は新しいです。静かで、きれいです。電車でコーヒーを飲むことができます。", "でんしゃはあたらしいです。しずかで、きれいです。でんしゃでこーひーをのむことができます。", "Le train est neuf. Il est calme et joli. On peut boire un café dans le train."],
+      ["電車は一人9,000円です。少し高いですが、新しい電車です。", "でんしゃはひとりきゅうせんえんです。すこしたかいですが、あたらしいでんしゃです。", "Le train coûte 9 000 yens par personne. C'est un peu cher, mais le train est neuf."],
+      ["京都の駅は大きいです。駅の近くにカフェがあります。そこで朝ご飯を食べましょう。パンは一つ200円です。コーヒーも200円です。", "きょうとのえきはおおきいです。えきのちかくにかふぇがあります。そこであさごはんをたべましょう。ぱんはひとつにひゃくえんです。こーひーもにひゃくえんです。", "La gare de Kyoto est grande. Près de la gare, il y a un café. Prenons-y le petit-déjeuner. Le pain coûte 200 yens la pièce. Le café aussi, 200 yens."],
+      ["9時にお寺へ行きます。お寺は古くて、有名です。お寺は静かです。", "くじにおてらへいきます。おてらはふるくて、ゆうめいです。おてらはしずかです。", "À 9h, nous irons au temple. Le temple est ancien et célèbre. Le temple est calme."],
+      ["お寺の近くに猫がたくさんいます。猫が好きな人は、猫を見ることができます。", "おてらのちかくにねこがたくさんいます。ねこがすきなひとは、ねこをみることができます。", "Près du temple, il y a beaucoup de chats. Ceux qui aiment les chats pourront en voir."],
+      ["12時にお弁当を食べます。京都の食べ物は安いです。お弁当は一つ500円です。", "じゅうじにおべんとうをたべます。きょうとのたべものはやすいです。おべんとうはひとつごひゃくえんです。", "À 12h, nous mangerons un bentō. La nourriture à Kyoto est bon marché. Le bentō coûte 500 yens la pièce."],
+      ["それから、大きい公園へ行きます。公園は静かで、きれいです。子供も猫もいます。", "それから、おおきいこうえんへいきます。こうえんはしずかで、きれいです。こどももねこもいます。", "Ensuite, nous irons dans un grand parc. Le parc est calme et joli. Il y a des enfants et des chats."],
+      ["公園の近くに新しい図書館があります。本がたくさんあります。", "こうえんのちかくにあたらしいとしょかんがあります。ほんがたくさんあります。", "Près du parc, il y a une bibliothèque neuve. Il y a beaucoup de livres."],
+      ["図書館で日本語の新聞を読むことができます。漢字はまだ難しいですが、頑張りましょう。", "としょかんでにほんごのしんぶんをよむことができます。かんじはまだむずかしいですが、がんばりましょう。", "On peut lire le journal japonais à la bibliothèque. Les kanji sont encore difficiles, mais persévérons."],
+      ["4時にカフェへ行きます。コーヒーは300円です。少し高いですが、窓の近くの机はいいです。", "よじにかふぇへいきます。こーひーはさんびゃくえんです。すこしたかいですが、まどのちかくのつくえはいいです。", "À 16h, nous irons au café. Le café coûte 300 yens. C'est un peu cher, mais la table près de la fenêtre est agréable."],
+      ["カフェでコーヒーを飲んでから、駅へ行きます。", "かふぇでこーひーをのんでから、えきへいきます。", "Après avoir pris un café, nous irons à la gare."],
+      ["夜6時に電車で東京へ帰ります。京都は静かです。食べ物も安いです。お寺は有名です。", "よるろくじにでんしゃでとうきょうへかえります。きょうとはしずかです。たべものもやすいです。おてらはゆうめいです。", "À 18h, nous rentrerons à Tokyo en train. Kyoto est calme. La nourriture y est bon marché. Les temples sont célèbres."],
+      ["日曜日は京都へ行きません。家にいます。何もしません。", "にちようびはきょうとへいきません。いえにいます。なにもしません。", "Dimanche, je n'irai pas à Kyoto. Je resterai à la maison. Je ne ferai rien."],
+      ["10時に寝ます。来週の月曜日は授業です。漢字を書いて、日本語を勉強します。", "じゅうじにねます。らいしゅうのげつようびはじゅぎょうです。かんじをかいて、にほんごをべんきょうします。", "Je me couche à 22h. Lundi prochain, il y a cours. J'écrirai des kanji et j'étudierai le japonais."],
+      ["私は京都が好きです。お寺も猫も食べ物も好きです。", "わたしはきょうとがすきです。おてらもねこもたべものもすきです。", "J'aime Kyoto. J'aime les temples, les chats et la nourriture."],
+      ["京都の食べ物は安いですが、電車は高いです。", "きょうとのたべものはやすいですが、でんしゃはたかいです。", "La nourriture à Kyoto est bon marché, mais le train est cher."],
+      ["京都へ行きたいですか。土曜日、朝6時に東京の駅で会いましょう。", "きょうとへいきたいですか。どようび、あさろくじにとうきょうのえきであいましょう。", "Envie de venir à Kyoto ? Samedi, retrouvons-nous à 6h du matin à la gare de Tokyo."],
+      ["楽しみです。京都で会いましょう。", "たのしみです。きょうとであいましょう。", "J'ai hâte. Retrouvons-nous à Kyoto."]
+    ],
+    quiz: [
+      { q: "Comment va-t-on à Kyoto ?", choices: ["En bus", "En train", "À pied", "En voiture"], a: 1, e: "電車で京都へ行きます : で marque aussi le moyen de transport." },
+      { q: "À quelle heure se retrouve-t-on à la gare de Tokyo ?", choices: ["À 9h", "À 12h", "À 6h", "À 16h"], a: 2, e: "朝6時に東京の駅で会いましょう : la journée commence à la gare, à 6h du matin." },
+      { q: "Que peut-on faire à la bibliothèque de Kyoto ?", choices: ["Lire le journal japonais", "Acheter un bentō", "Voir un film", "Boire un café"], a: 0, e: "図書館で日本語の新聞を読むことができます." }
+    ]
+  },
+  {
+    id: "a5",
+    cat: 4,
+    level: "Leçon 10",
+    lessons: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    title: "「駅の猫」",
+    advice: "Un vrai texte long, comme dans un livre : ne vous arrêtez pas au premier mot inconnu. Suivez le chat sur la journée (毎朝, 9時, 3時, 5時, 夜), puis relisez ligne par ligne.",
+    lines: [
+      ["東京の近くに小さい駅があります。駅は古いですが、きれいです。", "とうきょうのちかくにちいさいえきがあります。えきはふるいですが、きれいです。", "Près de Tokyo, il y a une petite gare. La gare est vieille, mais jolie."],
+      ["駅に猫がいます。猫は去年、京都から来ました。", "えきにねこがいます。ねこはきょねん、きょうとからきました。", "À la gare, il y a un chat. L'année dernière, le chat est arrivé de Kyoto."],
+      ["猫は小さいです。毎朝、駅に来ます。", "ねこはちいさいです。まいあさ、えきにきます。", "Le chat est petit. Chaque matin, il vient à la gare."],
+      ["駅の窓の近くに机があります。猫はそこで寝ます。", "えきのまどのちかくにつくえがあります。ねこはそこでねます。", "Près de la fenêtre de la gare, il y a une table. Le chat y dort."],
+      ["駅の近くにカフェがあります。店員は猫が好きです。", "えきのちかくにかふぇがあります。てんいんはねこがすきです。", "Près de la gare, il y a un café. Le vendeur aime le chat."],
+      ["毎朝、猫はカフェで食べます。水も飲みます。", "まいあさ、ねこはかふぇでたべます。みずものみます。", "Chaque matin, le chat mange au café. Il boit aussi de l'eau."],
+      ["会社員は朝、この駅で電車を待ちます。猫を見てから、電車で東京へ行きます。", "かいしゃいんはあさ、このえきででんしゃをまちます。ねこをみてから、でんしゃでとうきょうへいきます。", "Le matin, les employés de bureau attendent le train à cette gare. Après avoir vu le chat, ils vont à Tokyo en train."],
+      ["会社員は猫が好きです。猫は会社員の新聞の上で寝ます。", "かいしゃいんはねこがすきです。ねこはかいしゃいんのしんぶんのうえでねます。", "Les employés aiment le chat. Le chat dort sur leur journal."],
+      ["9時に学生が来ます。学生は電車で学校へ行きます。猫を見てから、行きます。", "くじにがくせいがきます。がくせいはでんしゃでがっこうへいきます。ねこをみてから、いきます。", "À 9h, des étudiants arrivent. Ils vont à l'école en train. Après avoir vu le chat, ils partent."],
+      ["12時に店員が来ます。猫と一緒に食べます。", "じゅうじにてんいんがきます。ねこといっしょにたべます。", "À 12h, le vendeur vient. Il mange avec le chat."],
+      ["3時に猫は公園へ行きます。公園は静かです。", "さんじにねこはこうえんへいきます。こうえんはしずかです。", "À 15h, le chat va au parc. Le parc est calme."],
+      ["公園に子供がたくさんいます。子供は猫と一緒に本を読みます。", "こうえんにこどもがたくさんいます。こどもはねこといっしょにほんをよみます。", "Au parc, il y a beaucoup d'enfants. Les enfants lisent des livres avec le chat."],
+      ["猫は子供が好きです。公園の近くにお寺もあります。", "ねこはこどもがすきです。こうえんのちかくにおてらもあります。", "Le chat aime les enfants. Près du parc, il y a aussi un temple."],
+      ["5時に猫は駅へ帰ります。", "ごじにねこはえきへかえります。", "À 17h, le chat revient à la gare."],
+      ["6時に会社員が駅に来ます。会社員は猫に会います。猫と一緒に電車を待ちます。", "ろくじにかいしゃいんがえきにきます。かいしゃいんはねこにあいます。ねこといっしょにでんしゃをまちます。", "À 18h, les employés arrivent à la gare. Ils retrouvent le chat. Ils attendent le train avec lui."],
+      ["電車は好きですか。猫も電車が好きです。", "でんしゃはすきですか。ねこもでんしゃがすきです。", "Vous aimez les trains ? Le chat, lui, aime les trains."],
+      ["夜、駅は静かです。猫は窓の近くで寝ます。", "よる、えきはしずかです。ねこはまどのちかくでねます。", "Le soir, la gare est calme. Le chat dort près de la fenêtre."],
+      ["猫は10時に寝ます。", "ねこはじゅうじにねます。", "Le chat se couche à 22h."],
+      ["土曜日、会社員は家にいます。猫は駅にいます。", "どようび、かいしゃいんはいえにいます。ねこはえきにいます。", "Le samedi, les employés restent à la maison. Le chat, lui, est à la gare."],
+      ["日曜日も、猫は駅にいます。朝、カフェで食べます。", "にちようびも、ねこはえきにいます。あさ、かふぇでたべます。", "Le dimanche aussi, le chat est à la gare. Le matin, il mange au café."],
+      ["週末、子供が駅に来ます。猫と一緒に本を読みます。猫は子供が好きです。", "しゅうまつ、こどもがえきにきます。ねこといっしょにほんをよみます。ねこはこどもがすきです。", "Le week-end, des enfants viennent à la gare. Ils lisent des livres avec le chat. Le chat aime les enfants."],
+      ["猫は土曜日も日曜日も駅が好きです。", "ねこはどようびもにちようびもえきがすきです。", "Le chat aime la gare, samedi comme dimanche."],
+      ["京都にはお寺がたくさんあります。猫は京都が好きですが、東京の駅がいちばん好きです。", "きょうとにはおてらがたくさんあります。ねこはきょうとがすきですが、とうきょうのえきがいちばんすきです。", "À Kyoto, il y a beaucoup de temples. Le chat aime Kyoto, mais c'est la gare de Tokyo qu'il préfère."],
+      ["猫は新聞と電車と会社員が好きです。東京の駅に全部あります。", "ねこはしんぶんとでんしゃとかいしゃいんがすきです。とうきょうのえきにぜんぶあります。", "Le chat aime les journaux, les trains et les employés. À la gare de Tokyo, tout y est."],
+      ["来年、店員は猫と京都へ行きます。", "らいねん、てんいんはねこときょうとへいきます。", "L'année prochaine, le vendeur ira à Kyoto avec le chat."],
+      ["猫は京都のお寺を見たいです。店員は京都の食べ物を食べたいです。", "ねこはきょうとのおてらをみたいです。てんいんはきょうとのたべものをたべたいです。", "Le chat veut voir les temples de Kyoto. Le vendeur veut goûter la nourriture de Kyoto."],
+      ["二人は来年が楽しみです。", "ふたりはらいねんがたのしみです。", "Tous les deux attendent l'année prochaine avec impatience."],
+      ["京都のお寺は古くて、静かです。猫はお寺も好きです。", "きょうとのおてらはふるくて、しずかです。ねこはおてらもすきです。", "Les temples de Kyoto sont anciens et calmes. Le chat aime aussi les temples."],
+      ["猫は今も東京の駅にいます。", "ねこはいまもとうきょうのえきにいます。", "Aujourd'hui, le chat est toujours à la gare de Tokyo."],
+      ["東京の駅の猫は、今日も窓の近くで寝ています。", "とうきょうのえきのねこは、きょうもまどのちかくでねています。", "Le chat de la gare de Tokyo, aujourd'hui encore, dort près de la fenêtre."]
+    ],
+    quiz: [
+      { q: "D'où vient le chat de la gare ?", choices: ["De Tokyo", "De Kyoto", "De France", "De l'école"], a: 1, e: "猫は去年、京都から来ました : から = point de départ." },
+      { q: "Où le chat dort-il la nuit ?", choices: ["Dans le café", "Au parc", "À Kyoto", "Près de la fenêtre de la gare"], a: 3, e: "猫は窓の近くで寝ます : la nuit (夜), il dort près de la fenêtre de la gare." },
+      { q: "L'année prochaine, le vendeur et le chat :", choices: ["resteront à Tokyo", "ouvriront un café", "verront un film", "iront à Kyoto"], a: 3, e: "来年、店員は猫と京都へ行きます." }
     ]
   }
 ];
