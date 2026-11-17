@@ -431,7 +431,7 @@ function grammarHTML() {
   h += '<p class="muted small">他動詞 (transitif) : agit sur un objet → を. 自動詞 (intransitif) : pas d\'objet → が. C\'est la même action, vue de l\'agent ou de la chose.</p>';
   h += '<table><thead><tr><th>Transitif (を)</th><th>Intransitif (が)</th><th>Exemple transitif</th><th>Exemple intransitif</th></tr></thead><tbody>';
   TRANS_PAIRS.forEach(function (r) {
-    h += '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td><td class="muted">' + esc(r[2]) + '</td><td class="muted">' + esc(r[3]) + '</td></tr>';
+    h += '<tr><td>' + esc(r[0]) + ' ' + ttsBtn(r[0].split(" (")[0]) + '</td><td>' + esc(r[1]) + ' ' + ttsBtn(r[1].split(" (")[0]) + '</td><td class="muted">' + esc(r[2]) + ' ' + ttsBtn(r[2].split(" ")[0]) + '</td><td class="muted">' + esc(r[3]) + ' ' + ttsBtn(r[3].split(" ")[0]) + '</td></tr>';
   });
   h += '</tbody></table>';
 
