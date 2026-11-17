@@ -615,8 +615,8 @@ function lecturesHTML() {
   var t = state.openLecture ? currentLecture() : null;
   if (!t) {
     var h = '<h2 class="serif">Lectures</h2>';
-    h += '<p class="muted small">18 textes progressifs : cliquez sur un texte pour le lire, révéler ligne par ligne la lecture en kana et la traduction, puis répondre au quiz.</p>';
-    var cats = [[1, "Un texte par leçon"], [2, "Textes gradués"], [3, "Textes type examen"]];
+    h += '<p class="muted small">21 textes progressifs : cliquez sur un texte pour le lire, révéler ligne par ligne la lecture en kana et la traduction, puis répondre au quiz.</p>';
+    var cats = [[1, "Un texte par leçon"], [2, "Textes gradués"], [3, "Textes type examen"], [4, "Textes longs"]];
     cats.forEach(function (c) {
       h += '<h3 class="serif" style="margin-top:1.5rem">' + esc(c[1]) + '</h3>';
       h += '<div class="grid g3" style="margin-top:.75rem">';
