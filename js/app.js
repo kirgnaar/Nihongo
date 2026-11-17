@@ -21,25 +21,31 @@ function pick(a, n) { return shuffle(a).slice(0, n); }
 
 function buildKanaDeck(kana) {
   return pick(kana, 10).map(function (k) {
-    var wrong = pick(kana.filter(function (x) { return x.r !== k.r; }), 3).map(function (x) { return x.r; });
-    var choices = shuffle([k.r].concat(wrong));
-    return { q: k.k, choices: choices, a: choices.indexOf(k.r), e: k.k + " → " + k.r };
+    var wrong = pick(kana.filter(function (x) { return x.r !== k.r; }), 3);
+    var choices = shuffle([k.r].concat(wrong.map(function (x) { return x.r; })));
+    var w = {};
+    wrong.forEach(function (x) { w[x.r] = x.r + " est la lecture de " + x.k; });
+    return { q: k.k, choices: choices, a: choices.indexOf(k.r), e: k.k + " → " + k.r, w: w };
   });
 }
 function buildKanjiDeck() {
   return pick(KANJI, 10).map(function (k) {
-    var wrong = pick(KANJI.filter(function (x) { return x.s !== k.s; }), 3).map(function (x) { return x.s; });
-    var choices = shuffle([k.s].concat(wrong));
-    return { q: k.k, choices: choices, a: choices.indexOf(k.s), e: k.k + " = " + k.s + ". " + k.m };
+    var wrong = pick(KANJI.filter(function (x) { return x.s !== k.s; }), 3);
+    var choices = shuffle([k.s].concat(wrong.map(function (x) { return x.s; })));
+    var w = {};
+    wrong.forEach(function (x) { w[x.s] = "« " + x.s + " » est le sens de " + x.k; });
+    return { q: k.k, choices: choices, a: choices.indexOf(k.s), e: k.k + " = " + k.s + ". " + k.m, w: w };
   });
 }
 function buildVocabDeck() {
   var all = [];
   LESSONS.forEach(function (l) { all = all.concat(l.vocab); });
   return pick(all, 10).map(function (v) {
-    var wrong = pick(all.filter(function (x) { return x[2] !== v[2]; }), 3).map(function (x) { return x[2]; });
-    var choices = shuffle([v[2]].concat(wrong));
-    return { q: v[0] + "（" + v[1] + "）", choices: choices, a: choices.indexOf(v[2]), e: v[0] + " = " + v[2] };
+    var wrong = pick(all.filter(function (x) { return x[2] !== v[2]; }), 3);
+    var choices = shuffle([v[2]].concat(wrong.map(function (x) { return x[2]; })));
+    var w = {};
+    wrong.forEach(function (x) { w[x[2]] = "« " + x[2] + " » correspond à " + x[0] + "（" + x[1] + "）"; });
+    return { q: v[0] + "（" + v[1] + "）", choices: choices, a: choices.indexOf(v[2]), e: v[0] + " = " + v[2], w: w };
   });
 }
 function buildParticleDeck() {
@@ -54,7 +60,19 @@ function buildParticleDeck() {
     { q: "東京＿行きます。(la direction compte)", choices: ["へ", "に", "を", "が"], a: 0, e: "Direction → へ (lu « e »)." },
     { q: "私＿行きます。(moi aussi)", choices: ["も", "は", "が", "を"], a: 0, e: "« Aussi » → も." },
     { q: "先生＿本です。", choices: ["の", "を", "は", "で"], a: 0, e: "Possession → の (le livre du professeur)." }
-  ];
+  ].map(function (it) {
+    var correct = it.choices[it.a];
+    it.choices = shuffle(it.choices);
+    it.a = it.choices.indexOf(correct);
+    var w = {};
+    it.choices.forEach(function (c) {
+      if (c === correct) return;
+      var p = PARTICLES.filter(function (x) { return x.p === c; })[0];
+      if (p) w[c] = p.read + " (" + p.p + ") marque " + p.role + ".";
+    });
+    it.w = w;
+    return it;
+  });
 }
 
 var DECKS = [
@@ -447,7 +465,8 @@ function quizHTML() {
     return '<button class="' + cls + '" onclick="qChoose(' + i + ')">' + esc(c) + '</button>';
   }).join("") + '</div>';
   if (qz.picked !== null) {
-    h2c += '<div class="feedback"><div class="fbrow"><div>' + (qz.picked === it.a ? '<span class="ok">正解 ! </span>' : '<span class="ko">残念… </span>') + esc(it.e) + '</div>';
+    var wrongLine = qz.picked !== it.a ? "Votre réponse : " + esc(it.choices[qz.picked]) + " — " + esc(it.w[it.choices[qz.picked]]) + "<br>" : "";
+    h2c += '<div class="feedback"><div class="fbrow"><div>' + wrongLine + (qz.picked === it.a ? '<span class="ok">正解 ! </span>' : '<span class="ko">残念… </span>') + esc(it.e) + '</div>';
     h2c += '<button class="btn dark" onclick="qNext()">' + (qz.idx + 1 >= qz.items.length ? "Terminer" : "Suivant") + '</button></div></div>';
   }
   h2c += '</div>';
