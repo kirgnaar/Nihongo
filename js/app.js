@@ -651,6 +651,7 @@ function render() {
   if (state.tab === "home") el.innerHTML = homeHTML();
   else if (state.tab === "kana") el.innerHTML = kanaHTML();
   else if (state.tab === "lessons") el.innerHTML = lessonsHTML();
+  else if (state.tab === "lectures") el.innerHTML = lecturesHTML();
   else if (state.tab === "grammar") el.innerHTML = grammarHTML();
   else if (state.tab === "kanji") el.innerHTML = kanjiHTML();
   else if (state.tab === "quiz") el.innerHTML = quizHTML();
