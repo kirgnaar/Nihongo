@@ -385,7 +385,7 @@ function lessonsHTML() {
       l.grammar.forEach(function (g) {
         h += '<div class="gpoint"><div class="gt">' + esc(g.t) + '</div><p>' + esc(g.d) + '</p>';
         g.ex.forEach(function (x) {
-          h += '<div class="gx">' + esc(x[0]) + ' <span class="tr">— ' + esc(x[1]) + '</span></div>';
+          h += '<div class="gx">' + esc(x[0]) + ' ' + ttsBtn(x[0]) + ' <span class="tr">— ' + esc(x[1]) + '</span></div>';
         });
         h += '</div>';
       });
