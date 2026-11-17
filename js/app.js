@@ -378,7 +378,7 @@ function lessonsHTML() {
       h += '</div>';
       h += '<h3 class="serif">Vocabulaire</h3><div class="vocab">';
       l.vocab.forEach(function (v) {
-        h += '<div class="vitem"><span class="jp">' + esc(v[0]) + '</span><span class="rd">' + esc(v[1]) + '</span><div class="fr">' + esc(v[2]) + '</div></div>';
+        h += '<div class="vitem"><span class="jp">' + esc(v[0]) + ' ' + ttsBtn(v[0]) + '</span><span class="rd">' + esc(v[1]) + '</span><div class="fr">' + esc(v[2]) + '</div></div>';
       });
       h += '</div>';
       h += '<h3 class="serif">Grammaire</h3>';
