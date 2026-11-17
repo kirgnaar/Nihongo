@@ -156,7 +156,7 @@ function buildLQ3(l) {
 
 var lq = null;
 
-var TABS = [["home", "Accueil"], ["kana", "Kana"], ["lessons", "Leçons"], ["grammar", "Grammaire"], ["kanji", "Kanji"], ["quiz", "Quiz"], ["srs", "Révision"]];
+var TABS = [["home", "Accueil"], ["kana", "Kana"], ["lessons", "Leçons"], ["lectures", "Lecture"], ["grammar", "Grammaire"], ["kanji", "Kanji"], ["quiz", "Quiz"], ["srs", "Révision"]];
 
 // ============================================================
 // ACTIONS
