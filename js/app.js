@@ -341,7 +341,8 @@ function lessonQuizHTML(n) {
     var pct = Math.round((lq.score / lq.items.length) * 100);
     h += '<div class="card" style="text-align:center"><div class="serif" style="font-size:1.9rem">' + lq.score + ' <span style="font-size:1rem;color:#a8a29e">/ ' + lq.items.length + '</span></div>';
     h += '<div class="muted small" style="margin-top:.25rem">' + pct + '% — ' + (pct >= 90 ? "素晴らしい ! Excellent." : pct >= 60 ? "よくできました ! Bien joué." : "もう一度 ! À retravailler.") + '</div>';
-    h += '<button class="btn primary" style="margin-top:1rem" onclick="lqRestart()">Recommencer</button></div>';
+    h += '<button class="btn primary" style="margin-top:1rem" onclick="lqRestart()">Recommencer</button>';
+    h += '<button class="btn" style="margin:1rem 0 0 .5rem" onclick="lq = null; render()">Autre niveau</button></div>';
     return h;
   }
   var it = lq.items[lq.idx];
