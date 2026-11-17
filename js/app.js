@@ -134,27 +134,21 @@ function buildLQ2(l) {
 }
 
 function buildLQ3(l) {
-  var pool = vocabPool(l.n);
   var cands = [];
-  l.grammar.forEach(function (g) { g.ex.forEach(function (x) { cands.push(x[0]); }); });
-  l.dialog.forEach(function (d) { cands.push(d[1]); });
-  var qs = [], used = [];
-  cands.forEach(function (s) {
-    if (qs.length >= 3) return;
-    l.vocab.forEach(function (v) {
-      if (qs.length >= 3 || used.indexOf(v[0]) >= 0) return;
-      if (s.indexOf(v[0]) >= 0) {
-        used.push(v[0]);
-        var wrong = pick(pool.filter(function (x) { return x[0] !== v[0]; }), 3);
-        var choices = shuffle([v[0]].concat(wrong.map(function (x) { return x[0]; })));
-        var w = {};
-        wrong.forEach(function (x) { w[x[0]] = "« " + x[0] + " » signifie " + x[2]; });
-        qs.push({ q: s.split(v[0]).join("＿"), choices: choices, a: choices.indexOf(v[0]), e: s, w: w });
-      }
-    });
+  l.grammar.forEach(function (g) { g.ex.forEach(function (x) { cands.push([x[0], x[1]]); }); });
+  l.dialog.forEach(function (d) { cands.push([d[1], d[2]]); });
+  var uniq = [];
+  cands.forEach(function (x) {
+    if (x[1] && uniq.every(function (u) { return u[0] !== x[0] && u[1] !== x[1]; })) uniq.push(x);
   });
-  if (qs.length < 3) return buildLQ1(l);
-  return qs;
+  if (uniq.length < 4) return buildLQ1(l);
+  return pick(uniq, 3).map(function (pair) {
+    var wrong = pick(uniq.filter(function (x) { return x[0] !== pair[0] && x[1] !== pair[1]; }), 3);
+    var choices = shuffle([pair[1]].concat(wrong.map(function (x) { return x[1]; })));
+    var w = {};
+    wrong.forEach(function (x) { w[x[1]] = "« " + x[1] + " » est la traduction de " + "「" + x[0] + "」"; });
+    return { q: "Que signifie : 「" + pair[0] + "」", choices: choices, a: choices.indexOf(pair[1]), e: pair[0] + " = " + pair[1], w: w };
+  });
 }
 
 var lq = null;
