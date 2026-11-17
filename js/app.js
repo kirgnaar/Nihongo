@@ -273,7 +273,7 @@ function homeHTML() {
   h += '<h2 class="serif" style="margin-top:2rem">Phrases de survie</h2><p class="muted small">À connaître avant tout le reste. Rōmaji fourni pour le premier voyage.</p>';
   h += '<div class="grid g3" style="margin-top:.75rem">';
   h += PHRASES.map(function (p) {
-    return '<div class="phcard"><div class="pj">' + esc(p[0]) + '</div><div class="pr">' + esc(p[1]) + '</div><div class="pf">' + esc(p[2]) + '</div></div>';
+    return '<div class="phcard"><div class="pj">' + esc(p[0]) + ' ' + ttsBtn(p[0]) + '</div><div class="pr">' + esc(p[1]) + '</div><div class="pf">' + esc(p[2]) + '</div></div>';
   }).join("");
   h += '</div>';
   return h;
